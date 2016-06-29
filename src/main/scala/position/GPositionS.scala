@@ -264,7 +264,7 @@ class GPositionS {
   def pseudoCoups(etat: PieceType) {
     val it = etat.DIR_PIECE.iterator
     etat.glissant match {
-      case 0 =>
+      case `non_glissant` =>
         if (etat eq pion) pseudoCoups(recherchePionAttaqueRoque)
         else while (it.hasNext) {
           val caseX = caseO + it.next
@@ -272,7 +272,7 @@ class GPositionS {
           else if (pieceAdverse(caseX)) Prise else Null
           ajouterCoups(caseO, caseX, t)
         }
-      case 1 =>
+      case `glissant` =>
         while (it.hasNext) {
           val direction = it.next
           var caseX = caseO + direction
