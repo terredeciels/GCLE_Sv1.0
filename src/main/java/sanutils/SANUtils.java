@@ -287,7 +287,7 @@ public class SANUtils {
                 }
             }
 
-            if ((gPosition.getEtats()[dst] != 0) || ((dst == gPosition.getCaseEP()) && (t == ICodage.PION()))) {
+            if ((gPosition.etats()[dst] != 0) || ((dst == gPosition.caseEP()) && (t == ICodage.PION()))) {
                 // Prise...
                 if (t == ICodage.PION()) {
                     sb.append((char) ('a' + xSrc));
@@ -299,7 +299,7 @@ public class SANUtils {
 
             if (t == ICodage.PION()) {
                 // Cas particuliers...
-                if (dst == gPosition.getCaseEP()) {
+                if (dst == gPosition.caseEP()) {
                     // ... de la prise en passant...
                     sb.append(" e.p.");
                 } else {

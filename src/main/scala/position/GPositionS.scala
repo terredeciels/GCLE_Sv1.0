@@ -1,15 +1,14 @@
 package position
 
 import java.lang.System._
-import java.util
 
 import org.apache.commons.lang3.Range
 import org.apache.commons.lang3.Range._
 import position.GPositionS._
 import position.ICodage._
+import position.PieceType._
 import position.Roques._
 import position.TypeDeCoups._
-import PieceType._
 
 import scala.collection.mutable._
 
@@ -26,31 +25,22 @@ object GPositionS {
 }
 
 class GPositionS {
-  val roques: Array[Boolean] = Roques.roques
-  val R: Roques = new Roques
-  val ROI: Int = 6
-  val CAVALIER: Int = 1
-  val TOUR: Int = 3
-  val FOU: Int = 2
-  val DAME: Int = 4
-  val PION: Int = 5
-  val VIDE: Int = 0
-  val OUT: Int = 9
-  var etats: Array[Int] = new Array[Int](ICodage.NB_CELLULES)
-  var caseEP: Int = 0
-  var couleur: Int = 0
-  //var pseudoCoups: util.List[GCoups] = null
-  var pseudoCoups: ListBuffer[GCoups] = null
-  var rang_final: Range[Integer] = null
-  var rang_initial: Range[Integer] = null
+  val roques = Roques.roques
+  val R = new Roques
+  var etats = new Array[Int](ICodage.NB_CELLULES)
+  var caseEP = 0
+  var couleur = 0
+  var pseudoCoups: ListBuffer[GCoups] = _
+  var rang_final: Range[Integer] = _
+  var rang_initial: Range[Integer] = _
   var gp: GPositionS = _
-  var `trait`: Int = 0
-  var _halfmoveCount: Int = 0
-  var _fullmoveNumber: Int = 0
-  var coupsvalides: ListBuffer[GCoups] = null
-  var estEnEchec: Boolean = false
-  var caseO: Int = 0
-  var recherchePionAttaqueRoque: Boolean = false
+  var `trait` = 0
+  var _halfmoveCount = 0
+  var _fullmoveNumber = 0
+  var coupsvalides: ListBuffer[GCoups] = _
+  var estEnEchec = false
+  var caseO = 0
+  var recherchePionAttaqueRoque = false
 
   def this(g_position: GPositionS, couleur: Int) {
     this()
@@ -288,7 +278,7 @@ class GPositionS {
           var caseX = caseO + direction
           var etatX = etats(caseX)
           while (etatX == VIDE) {
-            ajouterCoups(caseO, caseX,Deplacement)
+            ajouterCoups(caseO, caseX, Deplacement)
             caseX += direction
             etatX = etats(caseX)
           }
@@ -298,78 +288,63 @@ class GPositionS {
   }
 
   def ajouterCoups(caseO: Int, caseX: Int, type_de_coups: TypeDeCoups) {
-    if (type_de_coups ne TypeDeCoups.Null) pseudoCoups +=
+    if (type_de_coups ne Null) pseudoCoups +=
       new GCoups(etats(caseO), caseO, caseX, 0, 0, etats(caseX), type_de_coups, 0)
   }
 
   def pseudoCoups(recherchePionAttaqueRoque: Boolean) {
-    val NordSudSelonCouleur: Int = if (couleur == BLANC) nord
-    else sud
-    var caseX: Int = caseO + NordSudSelonCouleur
+    val NordSudSelonCouleur = if (couleur == BLANC) nord else sud
+    var caseX = caseO + NordSudSelonCouleur
     if (etats(caseX) == VIDE) {
-      if (rang_final.contains(caseX)) {
-        addPseudoCoupsPromotion(caseO, caseX, 0)
-      }
-      else {
-        add(new GCoups(couleur * PION, caseO, caseX, 0, 0, 0, TypeDeCoups.Deplacement, 0))
-      }
+      if (rang_final.contains(caseX)) addPseudoCoupsPromotion(caseO, caseX, 0)
+      else add(new GCoups(couleur * PION, caseO, caseX, 0, 0, 0, Deplacement, 0))
+
       if (rang_initial.contains(caseO)) {
         caseX += NordSudSelonCouleur
-        if (etats(caseX) == VIDE) {
-          add(new GCoups(couleur * PION, caseO, caseX, 0, 0, 0, TypeDeCoups.Deplacement, 0))
-        }
+        if (etats(caseX) == VIDE) add(new GCoups(couleur * PION, caseO, caseX, 0, 0, 0, Deplacement, 0))
       }
     }
-    if (!recherchePionAttaqueRoque) {
-      diagonalePionPrise(caseO, NordSudSelonCouleur, est)
-      diagonalePionPrise(caseO, NordSudSelonCouleur, ouest)
-    }
-    else {
+    if (recherchePionAttaqueRoque) {
       diagonalePionAttaqueRoque(caseO, NordSudSelonCouleur, est)
       diagonalePionAttaqueRoque(caseO, NordSudSelonCouleur, ouest)
+    } else {
+      diagonalePionPrise(caseO, NordSudSelonCouleur, est)
+      diagonalePionPrise(caseO, NordSudSelonCouleur, ouest)
     }
   }
 
   def diagonalePionAttaqueRoque(caseO: Int, NordSudSelonCouleur: Int, estOuOuest: Int) {
     val caseX: Int = caseO + NordSudSelonCouleur + estOuOuest
-    if (etats(caseX) != OUT) {
-      add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats(caseX), TypeDeCoups.Attaque, 0))
-    }
+    if (etats(caseX) != OUT) add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats(caseX), Attaque, 0))
   }
 
   def diagonalePionPrise(caseO: Int, NordSudSelonCouleur: Int, estOuOuest: Int) {
     val caseX: Int = caseO + NordSudSelonCouleur + estOuOuest
     if (pieceAdverse(caseX)) {
-      if (rang_final.contains(caseX)) {
-        addPseudoCoupsPromotion(caseO, caseX, etats(caseX))
-      }
-      else {
-        add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats(caseX), TypeDeCoups.Prise, 0))
-      }
+      if (rang_final.contains(caseX)) addPseudoCoupsPromotion(caseO, caseX, etats(caseX))
+      else add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats(caseX), Prise, 0))
     }
   }
 
-  def pieceAdverse(caseX: Int): Boolean = {
-    etats(caseX) != OUT && etats(caseX) * couleur < 0
-  }
+  def pieceAdverse(caseX: Int) = etats(caseX) != OUT && etats(caseX) * couleur < 0
 
   def addPseudoCoupsPromotion(caseO: Int, caseX: Int, pieceprise: Int) {
-    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, TypeDeCoups.Promotion, couleur * FOU))
-    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, TypeDeCoups.Promotion, couleur * CAVALIER))
-    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, TypeDeCoups.Promotion, couleur * DAME))
-    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, TypeDeCoups.Promotion, couleur * TOUR))
+    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, Promotion, couleur * FOU))
+    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, Promotion, couleur * CAVALIER))
+    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, Promotion, couleur * DAME))
+    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, Promotion, couleur * TOUR))
   }
 
   def fAttaque(caseRoi: Int, F1ouF8: Int, G1ouG8: Int, coups: ListBuffer[GCoups]): Boolean = {
     for (coup <- coups) {
-      val caseX: Int = coup.caseX
+      val caseX = coup.caseX
       if (caseX == caseRoi || caseX == F1ouF8 || caseX == G1ouG8) return true
     }
     false
   }
 
   def getCoupsValides() = {
-    val generateur: GPositionS = new GPositionS(this, `trait`)
+    val generateur = new GPositionS(this, `trait`)
     coupsvalides = generateur.getCoups
     estEnEchec = generateur.estEnEchec
     coupsvalides
@@ -381,11 +356,11 @@ class GPositionS {
     estEnEchec
   }
 
-  def getCoupsValides(t: Int): ListBuffer[GCoups] = {
-    val _trait: Int = `trait`
+  def getCoupsValides(t: Int) = {
+    val _trait = `trait`
     if (t == BLANC) {
       setTrait(BLANC)
-      val generateur: GPositionS = new GPositionS(this, `trait`)
+      val generateur = new GPositionS(this, `trait`)
       coupsvalides = generateur.getCoups
       estEnEchec = generateur.estEnEchec
       setTrait(_trait)
@@ -393,7 +368,7 @@ class GPositionS {
     }
     else {
       setTrait(NOIR)
-      val generateur: GPositionS = new GPositionS(this, `trait`)
+      val generateur = new GPositionS(this, `trait`)
       coupsvalides = generateur.getCoups
       estEnEchec = generateur.estEnEchec
       setTrait(_trait)
@@ -406,18 +381,13 @@ class GPositionS {
     arraycopy(ug.roques, 0, roques, 0, 4)
     caseEP_$eq(ug.caseEP)
     `trait` = -`trait`
-    // trait_$eq(-`trait`)
   }
 
-  def getCaseEP: Int = caseEP
+  def getFullmoveNumber = _fullmoveNumber
 
-  def getEtats: Array[Int] = etats
+  def getHalfmoveCount = _halfmoveCount
 
-  def getFullmoveNumber: Int = _fullmoveNumber
-
-  def getHalfmoveCount: Int = _halfmoveCount
-
-  def getTrait: Int = `trait`
+  def getTrait = `trait`
 
   def setTrait(`trait`: Int) {
     this.`trait` = `trait`

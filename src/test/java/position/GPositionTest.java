@@ -48,7 +48,7 @@ public class GPositionTest {
         String result = instance.print();
         int rg = 0;
         for (int c = 0; c < 64; c++) {
-            int e = -instance.getEtats()[ICodage.CASES117()[c]];
+            int e = -instance.etats()[ICodage.CASES117()[c]];
             System.out.print(e + ";");
             rg++;
             if (rg == 8) {

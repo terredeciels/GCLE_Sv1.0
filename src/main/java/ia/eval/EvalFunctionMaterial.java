@@ -84,7 +84,7 @@ public class EvalFunctionMaterial implements IEval {
         int res = -gp.getHalfmoveCount();
 
         for (int _case : ICodage.CASES117()) {
-            int piece = gp.getEtats()[_case];
+            int piece = gp.etats()[_case];
             if (piece != ICodage.VIDE()) {
                 boolean traitPiece = isWhite(piece);
                 int typePiece = typeDePiece(piece);
