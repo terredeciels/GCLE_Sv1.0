@@ -2,12 +2,15 @@ package position
 
 import java.lang.System._
 import java.util
+
 import org.apache.commons.lang3.Range
 import org.apache.commons.lang3.Range._
 import position.GPositionS._
 import position.ICodage._
 import position.Roques._
 import position.TypeDeCoups._
+import PieceType._
+
 import scala.collection.mutable._
 
 object GPositionS {
@@ -88,7 +91,7 @@ class GPositionS {
   }
 
   def add(coups: GCoups) {
-    pseudoCoups+=coups
+    pseudoCoups += coups
   }
 
   def getCoups = {
@@ -108,7 +111,7 @@ class GPositionS {
       val pseudoCoupsPosSimul = new GPositionS(true).pseudoC(positionSimul, -couleur)
       estEnEchec_$eq(fAttaque(caseRoiCouleur, -1, -1, pseudoCoupsPosSimul))
       if (estEnEchec) {
-        aRetirer+=coups
+        aRetirer += coups
       }
     }
     aRetirer
@@ -131,7 +134,7 @@ class GPositionS {
       case Promotion =>
         p.etats(X) = piecePromotion
         e(p, O)
-     case _ =>
+      case _ =>
     }
     p
   }
@@ -218,49 +221,40 @@ class GPositionS {
 
   def fCaseRoi(position: GPositionS, couleur: Int) = {
     var caseRoi = OUT
-    //var etatO = 0
-   // var typeO = 0
     for (caseO <- CASES117) {
-    val  etatO = position.etats(caseO)
-    val  typeO = Math.abs(etatO)
+      val etatO = position.etats(caseO)
+      val typeO = abs(etatO)
       if (typeO == ROI && etatO * couleur > 0) {
         caseRoi = caseO
         caseRoi
-        // break //todo: break is not supported
       }
     }
     caseRoi
   }
 
   def ajouterRoques() {
-    val coupsAttaque: ListBuffer[GCoups] = new GPositionS(true).pseudoC(gp, -couleur)
-    val e: Array[Int] = gp.etats
-    var `type`: Integer = 0
+    val coupsAttaque = new GPositionS(true).pseudoC(gp, -couleur)
+    val e = gp.etats
+    var `type` = 0
     while (`type` < 4) {
-
-      val _c0: Int = Roques.o_o(`type`)(0)
-      val _c1: Int = Roques.o_o(`type`)(1)
-      val _c2: Int = Roques.o_o(`type`)(2)
-      val _c3: Int = Roques.o_o(`type`)(3)
-      val e_c4: Int = if (`type` == 1 || `type` == 3) e(Roques.o_o(`type`)(4))
-      else VIDE
-      if (gp.roques(`type`)) {
-        if ((e(_c0) == couleur * ROI && e(_c2) == couleur * TOUR && e(_c3) == VIDE && e(_c1) == VIDE && e_c4 == VIDE) && !fAttaque(_c0, _c3, _c1, coupsAttaque)) {
-          add(new GCoups(ROI, _c0, _c1, _c2, _c3, 0, TypeDeCoups.Roque, 0))
-        }
-      }
+      val _c0 = o_o(`type`)(0)
+      val _c1 = o_o(`type`)(1)
+      val _c2 = o_o(`type`)(2)
+      val _c3 = o_o(`type`)(3)
+      val e_c4 = if (`type` == 1 || `type` == 3) e(o_o(`type`)(4)) else VIDE
+      if (gp.roques(`type`))
+        if ((e(_c0) == couleur * ROI && e(_c2) == couleur * TOUR && e(_c3) == VIDE && e(_c1) == VIDE && e_c4 == VIDE) && !fAttaque(_c0, _c3, _c1, coupsAttaque)) add(new GCoups(ROI, _c0, _c1, _c2, _c3, 0, Roque, 0))
       `type` += 1
     }
   }
 
-  def pseudoC(gp: GPositionS, couleur: Int): ListBuffer[GCoups] = {
+  def pseudoC(gp: GPositionS, couleur: Int) = {
     setPseudoCoups(new ListBuffer[GCoups])
     etats_$eq(gp.etats)
     couleur_$eq(couleur)
     for (s <- CASES117) {
       if (pieceQuiALeTrait(s)) {
-        val etat: PieceType = PieceType._PIECE_TYPE(if (etats(s) < 0) -etats(s)
-        else etats(s))
+        val etat = _PIECE_TYPE(if (etats(s) < 0) -etats(s) else etats(s))
         caseO = s
         pseudoCoups(etat)
       }
@@ -269,58 +263,42 @@ class GPositionS {
   }
 
   def setPseudoCoups(pseudoc: ListBuffer[GCoups]) {
-    this.pseudoCoups = pseudoc
+    pseudoCoups = pseudoc
   }
 
-  def pieceQuiALeTrait(caseO: Int): Boolean = {
-    val couleurPiece: Int = if (etats(caseO) < 0) BLANC
-    else NOIR
+  def pieceQuiALeTrait(caseO: Int) = {
+    val couleurPiece: Int = if (etats(caseO) < 0) BLANC else NOIR
     !(etats(caseO) == VIDE) && couleurPiece == couleur
   }
 
   def pseudoCoups(etat: PieceType) {
-    val it: util.Iterator[Int] = etat.DIR_PIECE.iterator
+    val it = etat.DIR_PIECE.iterator
     etat.glissant match {
       case 0 =>
-        if (etat eq PieceType.pion) {
-          pseudoCoups(recherchePionAttaqueRoque)
+        if (etat eq pion) pseudoCoups(recherchePionAttaqueRoque)
+        else while (it.hasNext) {
+          val caseX = caseO + it.next
+          val t = if (etats(caseX) == VIDE) Deplacement
+          else if (pieceAdverse(caseX)) Prise else Null
+          ajouterCoups(caseO, caseX, t)
         }
-        else {
-          while (it.hasNext) {
-            {
-              val dir: Int = it.next
-              val caseX: Int = caseO + dir
-              val t: TypeDeCoups = if (etats(caseX) == VIDE) TypeDeCoups.Deplacement
-              else if (pieceAdverse(caseX)) TypeDeCoups.Prise
-              else TypeDeCoups.Null
-              ajouterCoups(caseO, caseX, t)
-            }
-          }
-        }
-      // break //todo: break is not supported
       case 1 =>
         while (it.hasNext) {
-          {
-            val direction: Int = it.next
-            var caseX: Int = caseO + direction
-            var etatX: Int = etats(caseX)
-            while (etatX == VIDE) {
-              {
-                ajouterCoups(caseO, caseX, TypeDeCoups.Deplacement)
-                caseX += direction
-                etatX = etats(caseX)
-              }
-            }
-            if (pieceAdverse(caseX)) {
-              ajouterCoups(caseO, caseX, TypeDeCoups.Prise)
-            }
+          val direction = it.next
+          var caseX = caseO + direction
+          var etatX = etats(caseX)
+          while (etatX == VIDE) {
+            ajouterCoups(caseO, caseX,Deplacement)
+            caseX += direction
+            etatX = etats(caseX)
           }
+          if (pieceAdverse(caseX)) ajouterCoups(caseO, caseX, Prise)
         }
     }
   }
 
   def ajouterCoups(caseO: Int, caseX: Int, type_de_coups: TypeDeCoups) {
-    if (type_de_coups ne TypeDeCoups.Null) pseudoCoups+=
+    if (type_de_coups ne TypeDeCoups.Null) pseudoCoups +=
       new GCoups(etats(caseO), caseO, caseX, 0, 0, etats(caseX), type_de_coups, 0)
   }
 
@@ -383,7 +361,6 @@ class GPositionS {
   }
 
   def fAttaque(caseRoi: Int, F1ouF8: Int, G1ouG8: Int, coups: ListBuffer[GCoups]): Boolean = {
-    import scala.collection.JavaConversions._
     for (coup <- coups) {
       val caseX: Int = coup.caseX
       if (caseX == caseRoi || caseX == F1ouF8 || caseX == G1ouG8) return true
@@ -397,7 +374,6 @@ class GPositionS {
     estEnEchec = generateur.estEnEchec
     coupsvalides
   }
-
 
 
   def isInCheck(pCouleur: Int) = {
