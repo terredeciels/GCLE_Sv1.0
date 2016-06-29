@@ -233,7 +233,8 @@ class GPositionS {
       val _c3 = o_o(`type`)(3)
       val e_c4 = if (`type` == 1 || `type` == 3) e(o_o(`type`)(4)) else VIDE
       if (gp.roques(`type`))
-        if ((e(_c0) == couleur * ROI && e(_c2) == couleur * TOUR && e(_c3) == VIDE && e(_c1) == VIDE && e_c4 == VIDE) && !fAttaque(_c0, _c3, _c1, coupsAttaque)) add(new GCoups(ROI, _c0, _c1, _c2, _c3, 0, Roque, 0))
+        if ((e(_c0) == couleur * ROI && e(_c2) == couleur * TOUR && e(_c3) == VIDE && e(_c1) == VIDE && e_c4 == VIDE) && !fAttaque(_c0, _c3, _c1, coupsAttaque))
+          add(new GCoups(ROI, _c0, _c1, _c2, _c3, 0, Roque, 0))
       `type` += 1
     }
   }
@@ -314,12 +315,12 @@ class GPositionS {
   }
 
   def diagonalePionAttaqueRoque(caseO: Int, NordSudSelonCouleur: Int, estOuOuest: Int) {
-    val caseX: Int = caseO + NordSudSelonCouleur + estOuOuest
+    val caseX = caseO + NordSudSelonCouleur + estOuOuest
     if (etats(caseX) != OUT) add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats(caseX), Attaque, 0))
   }
 
   def diagonalePionPrise(caseO: Int, NordSudSelonCouleur: Int, estOuOuest: Int) {
-    val caseX: Int = caseO + NordSudSelonCouleur + estOuOuest
+    val caseX = caseO + NordSudSelonCouleur + estOuOuest
     if (pieceAdverse(caseX)) {
       if (rang_final.contains(caseX)) addPseudoCoupsPromotion(caseO, caseX, etats(caseX))
       else add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats(caseX), Prise, 0))
@@ -359,19 +360,19 @@ class GPositionS {
   def getCoupsValides(t: Int) = {
     val _trait = `trait`
     if (t == BLANC) {
-      setTrait(BLANC)
+      `trait`=BLANC
       val generateur = new GPositionS(this, `trait`)
       coupsvalides = generateur.getCoups
       estEnEchec = generateur.estEnEchec
-      setTrait(_trait)
+      `trait`=_trait
       coupsvalides
     }
     else {
-      setTrait(NOIR)
+      `trait`=NOIR
       val generateur = new GPositionS(this, `trait`)
       coupsvalides = generateur.getCoups
       estEnEchec = generateur.estEnEchec
-      setTrait(_trait)
+      `trait`=_trait
       coupsvalides
     }
   }
@@ -386,12 +387,6 @@ class GPositionS {
   def getFullmoveNumber = _fullmoveNumber
 
   def getHalfmoveCount = _halfmoveCount
-
-  def getTrait = `trait`
-
-  def setTrait(`trait`: Int) {
-    this.`trait` = `trait`
-  }
 
   def print: String = {
     var str: String = ""

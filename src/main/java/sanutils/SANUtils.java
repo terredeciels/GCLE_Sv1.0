@@ -43,7 +43,7 @@ public class SANUtils {
             throw new SANException("Invalid SAN string [" + pSAN + ']', null);
         }
 
-        final boolean trait = gPosition.getTrait() == ICodage.BLANC();
+        final boolean trait = gPosition.trait() == ICodage.BLANC();
         if ("0-0".equals(pSAN)) {
             // Gère les petits roques...
             if (trait) {
@@ -228,7 +228,7 @@ public class SANUtils {
             throw new NullPointerException("Missing move");
         }
 
-        final boolean trait = gPosition.getTrait() == ICodage.BLANC();
+        final boolean trait = gPosition.trait() == ICodage.BLANC();
         final int piece = pMouvement.getPiece();
         final int t = Math.abs(piece);
         final StringBuilder sb = new StringBuilder();
@@ -237,7 +237,7 @@ public class SANUtils {
 
         UndoGCoups ug = new UndoGCoups();
         gPosition.exec(pMouvement, ug);
-        final int nbMvts = gPosition.getCoupsValides(-gPosition.getTrait()).size();
+        final int nbMvts = gPosition.getCoupsValides(-gPosition.trait()).size();
         gPosition.unexec(ug);
 
         final int xSrc = getFile(src);
@@ -254,7 +254,7 @@ public class SANUtils {
 
             // Recherche et levée des éventuelles ambiguités...
             if (t != ICodage.PION()) {
-                ListBuffer<GCoups> mvts = gPosition.getCoupsValides(gPosition.getTrait());
+                ListBuffer<GCoups> mvts = gPosition.getCoupsValides(gPosition.trait());
 
                 // final ArrayList<GCoups> mvts = new ArrayList(coupsValides);
 //                System.out.println(mvts);
@@ -324,7 +324,7 @@ public class SANUtils {
             }
         }
 
-        if (gPosition.isInCheck(-gPosition.getTrait())) {
+        if (gPosition.isInCheck(-gPosition.trait())) {
             // Echec / Mat ...
             sb.append('+');
             if (nbMvts == 0) {

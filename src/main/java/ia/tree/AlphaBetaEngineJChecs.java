@@ -22,7 +22,7 @@ public class AlphaBetaEngineJChecs implements IIA {
 
     private int alphabeta(final GPositionS gp, final int pProfondeur, final int pAlpha, final int pBeta) {
 
-        final int trait = gp.getTrait();
+        final int trait = gp.trait();
         if (pProfondeur == 0) {
             return evaluate(gp, trait);
         }

@@ -97,7 +97,8 @@ public final class XBoardAdapterTest {
             String xbSAN = pCommande.substring(9);
             String san = xbSAN.replace("=", "").replace('O', '0');
 
-            gPosition.setTrait(ICodage.BLANC());
+            //gPosition.setTrait(ICodage.BLANC());
+            gPosition.trait_$eq(ICodage.BLANC());
 //            System.out.println(gPosition.print());
 //            System.out.println(gPosition);
 //            System.out.println(gPosition.getTrait()==BLANC ? "trait aux blancs":"trait aux noirs");
