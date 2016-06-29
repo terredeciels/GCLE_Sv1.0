@@ -5,7 +5,7 @@ import position.TypeDeCoups._
 
 object GCoups {
 
-  def getString(coups: GCoups): String = {
+  def getString(coups: GCoups) = {
     if (coups.piece == ROI && coups.caseO == e1 && coups.caseX == g1 ||
       coups.piece == ROI && coups.caseO == e8 && coups.caseX == g8) "O-O"
     else if (coups.piece == ROI && coups.caseO == e1 && coups.caseX == c1 ||
@@ -32,21 +32,21 @@ class GCoups(val piece: Int, val caseO: Int, val caseX: Int,
              val type_de_coups: TypeDeCoups, val piecePromotion: Int) {
   val PAS_DE_PIECE: Int = -1
 
-  def getCaseO: Int = caseO
+  def getCaseO = caseO
 
-  def getCaseX: Int = caseX
+  def getCaseX = caseX
 
-  def getCaseOTour: Int = caseOTour
+  def getCaseOTour = caseOTour
 
-  def getCaseXTour: Int = caseXTour
+  def getCaseXTour = caseXTour
 
-  def getPiece: Int = piece
+  def getPiece = piece
 
-  def getPiecePrise: Int = pieceprise
+  def getPiecePrise = pieceprise
 
-  def getTypeDeCoups: TypeDeCoups = type_de_coups
+  def getTypeDeCoups = type_de_coups
 
-  def getPiecePromotion: Int = piecePromotion
+  def getPiecePromotion = piecePromotion
 
-  override def toString: String = GCoups.getString(this)
+  override def toString = GCoups.getString(this)
 }

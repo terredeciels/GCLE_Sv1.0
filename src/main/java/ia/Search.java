@@ -8,7 +8,7 @@ import position.GCoups;
 import position.GPositionS;
 
 /**
- * @TODO Runnable
+ * TODO Runnable
  */
 public class Search {
 

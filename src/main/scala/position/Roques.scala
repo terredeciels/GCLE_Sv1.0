@@ -1,12 +1,13 @@
 package position
 
 import position.ICodage._
+import Roques._
 
 object Roques {
-  val roques: Array[Boolean] = new Array[Boolean](4)
-  var o_o: Array[Array[Integer]] = Array(Array(ICodage.e1, ICodage.g1, ICodage.h1, ICodage.f1), Array(ICodage.e1, ICodage.c1, ICodage.a1, ICodage.d1, ICodage.b1), Array(ICodage.e8, ICodage.g8, ICodage.h8, ICodage.f8), Array(ICodage.e8, ICodage.c8, ICodage.a8, ICodage.d8, ICodage.b8))
+  val roques= new Array[Boolean](4)
+  var o_o = Array(Array(e1, g1, h1, f1), Array(e1, c1, a1, d1, b1), Array(e8, g8, h8, f8), Array(e8, c8, a8, d8, b8))
 
-  def unsetKQ() {
+  def unsetKQ() ={
     roques(0) = false
     roques(1) = false
   }
@@ -17,15 +18,11 @@ object Roques {
   }
 
   def unsetK(color: Int) {
-    if (color == BLANC) {
-      unsetK()
-    }
-    else if (color == NOIR) {
-      unsetk()
-    }
+    if (color == BLANC) unsetK()
+    else if (color == NOIR) unsetk()
   }
 
-  def unsetK() {
+  def unsetK() ={
     roques(0) = false
   }
 
@@ -34,12 +31,8 @@ object Roques {
   }
 
   def unsetQ(color: Int) {
-    if (color == BLANC) {
-      unsetQ()
-    }
-    else if (color == NOIR) {
-      unsetq()
-    }
+    if (color == BLANC) unsetQ()
+    else if (color == NOIR) unsetq()
   }
 
   def unsetQ() {
@@ -50,26 +43,19 @@ object Roques {
     roques(3) = false
   }
 
-  def caseTourH(couleur: Int): Int = if (couleur == BLANC) h1
-  else h8
+  def caseTourH(couleur: Int) = if (couleur == BLANC) h1 else h8
 
-  def caseTourA(couleur: Int): Int = if (couleur == BLANC) a1
-  else a8
+  def caseTourA(couleur: Int) = if (couleur == BLANC) a1 else a8
 
-  def caseRoi(couleur: Int): Int = if (couleur == BLANC) e1
-  else e8
+  def caseRoi(couleur: Int) = if (couleur == BLANC) e1 else e8
 }
 
 class Roques {
 
   var side = 0
 
-  def unsetRoque() {
-    if (side == BLANC) {
-      Roques.unsetKQ()
-    }
-    else if (side == NOIR) {
-      Roques.unsetkq()
-    }
+  def unsetRoque()= {
+    if (side == BLANC) unsetKQ()
+    else if (side == NOIR) unsetkq()
   }
 }

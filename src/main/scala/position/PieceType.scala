@@ -1,7 +1,5 @@
 package position
 
-import java.util
-
 import position.ICodage._
 
 object PieceType {
@@ -13,9 +11,9 @@ object PieceType {
   val dame = new PieceType(DAME, "Q", 1000, DIR_DAME, 1)
   val tour = new PieceType(TOUR, "R", 550, DIR_TOUR, 1)
 
-  def getValue(type_de_piece: Int): Int = _PIECE_TYPE(type_de_piece).value
+  def getValue(type_de_piece: Int) = _PIECE_TYPE(type_de_piece).value
 
-  def _PIECE_TYPE(type_de_piece: Int): PieceType = {
+  def _PIECE_TYPE(type_de_piece: Int) = {
     type_de_piece match {
       case FOU =>
         fou
@@ -39,9 +37,6 @@ object PieceType {
 class PieceType(var code: Int,
                 var english_fen: String,
                 var value: Int,
-                var DIR_PIECE: util.List[Int],
+                var DIR_PIECE: List[Int],
                 var glissant: Int) {
-
-  def getDIR_PIECE = DIR_PIECE
-
 }

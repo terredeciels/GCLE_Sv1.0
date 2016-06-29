@@ -1,11 +1,9 @@
 package position
 
-import java.util.Arrays._
-
 object ICodage {
   val INFINI: Int = Integer.MAX_VALUE
   val PAS_DE_CASE: Int = -1
-  val FEN_INITIALE: String = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+  val FEN_INITIALE= "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
   val BLANC: Int = -1
   val NOIR: Int = 1
   val a1: Int = 26
@@ -72,18 +70,18 @@ object ICodage {
   val INDICECASES: Array[Int] = Array(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7, -1, -1, -1, -1, 8, 9, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, 16, 17, 18, 19, 20, 21, 22, 23, -1, -1, -1, -1, 24, 25, 26, 27, 28, 29, 30, 31, -1, -1, -1, -1, 32, 33, 34, 35, 36, 37, 38, 39, -1, -1, -1, -1, 40, 41, 42, 43, 44, 45, 46, 47, -1, -1, -1, -1, 48, 49, 50, 51, 52, 53, 54, 55, -1, -1, -1, -1, 56, 57, 58, 59, 60, 61, 62, 63, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)
   val STRING_CASES: Array[String] = Array("a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1", "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2", "a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3", "a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4", "a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5", "a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6", "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7", "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8")
   val STRING_PIECE: Array[String] = Array("", "N", "B", "R", "Q")
-  val nord: Int = +12
-  val est: Int = -1
+  val nord= +12
+  val est= -1
   val sud: Int = -12
   val ouest: Int = +1
   val nordest: Int = nord + est
   val nordouest: Int = nord + ouest
   val sudest: Int = sud + est
   val sudouest: Int = sud + ouest
-  val DIR_CAVALIER = asList(2 * nord + est, 2 * nord + ouest, 2 * est + nord, 2 * est + sud, 2 * sud + est, 2 * sud + ouest, 2 * ouest + nord, 2 * ouest + sud)
-  val DIR_DAME = asList(nord, nordest, est, sudest, sud, sudouest, ouest, nordouest)
-  val DIR_ROI = asList(nord, nordest, est, sudest, sud, sudouest, ouest, nordouest)
-  val DIR_FOU = asList(nordest, sudest, sudouest, nordouest)
-  val DIR_TOUR = asList(nord, est, sud, ouest)
-  val DIR_PION = asList(0)
+  val DIR_CAVALIER = List(2 * nord + est, 2 * nord + ouest, 2 * est + nord, 2 * est + sud, 2 * sud + est, 2 * sud + ouest, 2 * ouest + nord, 2 * ouest + sud)
+  val DIR_DAME = List(nord, nordest, est, sudest, sud, sudouest, ouest, nordouest)
+  val DIR_ROI = List(nord, nordest, est, sudest, sud, sudouest, ouest, nordouest)
+  val DIR_FOU = List(nordest, sudest, sudouest, nordouest)
+  val DIR_TOUR = List(nord, est, sud, ouest)
+  val DIR_PION = List(0)
 }
