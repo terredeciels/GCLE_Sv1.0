@@ -1,15 +1,11 @@
 package position
 
-import java.lang.System._
-
-import org.apache.commons.lang3.Range
-import org.apache.commons.lang3.Range._
 import position.GPositionS._
 import position.ICodage._
 import position.PieceType._
 import position.Roques._
 import position.TypeDeCoups._
-
+import Array._
 import scala.collection.mutable._
 
 object GPositionS {
@@ -27,14 +23,12 @@ object GPositionS {
 class GPositionS {
   val roques = Roques.roques
   val R = new Roques
-  var etats = new Array[Int](ICodage.NB_CELLULES)
+  var etats = new Array[Int](NB_CELLULES)
   var caseEP = 0
   var couleur = 0
   var pseudoCoups: ListBuffer[GCoups] = _
-  var rang_final: Range[Integer] = _
-  var rang_initial: Range[Integer] = _
   var gp: GPositionS = _
-  var `trait` = 0
+  var side = 0
   var _halfmoveCount = 0
   var _fullmoveNumber = 0
   var coupsvalides: ListBuffer[GCoups] = _
@@ -48,13 +42,11 @@ class GPositionS {
     gp_$eq(g_position)
     couleur_$eq(couleur)
     etats_$eq(gp.etats)
-    range()
   }
 
   def this(recherchePionAttaqueRoque: Boolean) {
     this()
-    this.recherchePionAttaqueRoque_$eq(recherchePionAttaqueRoque)
-    range()
+    recherchePionAttaqueRoque_$eq(recherchePionAttaqueRoque)
   }
 
   def e(p: GPositionS, co: Int, cx: Int) {
@@ -62,12 +54,12 @@ class GPositionS {
   }
 
   def e(p: GPositionS, co: Int) {
-    p.etats(co) = ICodage.VIDE
+    p.etats(co) = VIDE
   }
 
   def ajouterCoupsEP() {
     val caseEP = gp.caseEP
-    if (caseEP != ICodage.PAS_DE_CASE) {
+    if (caseEP != PAS_DE_CASE) {
       pionEstOuest(caseEP, est)
       pionEstOuest(caseEP, ouest)
     }
@@ -75,9 +67,8 @@ class GPositionS {
 
   def pionEstOuest(caseEP: Int, estouest: Int) {
     val caseEstOuest = caseEP + couleur * nord + estouest
-    if (pionDeCouleur(caseEstOuest, couleur)) {
-      add(new GCoups(couleur * ICodage.PION, caseEstOuest, caseEP, 0, 0, 0, TypeDeCoups.EnPassant, 0))
-    }
+    if (pionDeCouleur(caseEstOuest, couleur))
+      add(new GCoups(couleur * PION, caseEstOuest, caseEP, 0, 0, 0, EnPassant, 0))
   }
 
   def add(coups: GCoups) {
@@ -94,25 +85,23 @@ class GPositionS {
 
   def coupsEnEchec = {
     val aRetirer = new ListBuffer[GCoups]
-    var caseRoiCouleur: Int = 0
+    var caseRoiCouleur = 0
     for (coups <- pseudoCoups) {
       val positionSimul = fPositionSimul(coups, couleur)
       caseRoiCouleur = fCaseRoi(positionSimul, couleur)
       val pseudoCoupsPosSimul = new GPositionS(true).pseudoC(positionSimul, -couleur)
       estEnEchec_$eq(fAttaque(caseRoiCouleur, -1, -1, pseudoCoupsPosSimul))
-      if (estEnEchec) {
-        aRetirer += coups
-      }
+      if (estEnEchec) aRetirer += coups
     }
     aRetirer
   }
 
   def fPositionSimul(m: GCoups, couleur: Int) = {
     val p = new GPositionS
-    System.arraycopy(etats, 0, p.etats, 0, NB_CELLULES)
-    val O: Int = m.caseO
-    val X: Int = m.caseX
-    val t: TypeDeCoups = m.getTypeDeCoups
+    copy(etats, 0, p.etats, 0, NB_CELLULES)
+    val O = m.caseO
+    val X = m.caseX
+    val t = m.getTypeDeCoups
     val piecePromotion = m.getPiecePromotion
     t match {
       case Deplacement | Prise | EnPassant =>
@@ -130,17 +119,17 @@ class GPositionS {
   }
 
   def exec(m: GCoups, ug: UndoGCoups): Boolean = {
-    arraycopy(etats, 0, ug.etats, 0, ICodage.NB_CELLULES)
+    copy(etats,0,ug.etats,0,NB_CELLULES)
     ug.setKQkq(roques)
     ug.caseEP_$eq(caseEP)
-    val O: Int = m.caseO
-    val X: Int = m.caseX
-    val p: Int = m.piece
-    val t: TypeDeCoups = m.type_de_coups
+    val O = m.caseO
+    val X = m.caseX
+    val p = m.piece
+    val t = m.type_de_coups
     caseEP_$eq(-1)
-    R.`trait` = `trait`
+    R.side = side
     if (typePiece(p) == PION && abs(X - O) == nord - sud) {
-      caseEP_$eq(if (`trait` == NOIR) X + 12 else X - 12)
+      caseEP_$eq(if (side == NOIR) X + 12 else X - 12)
     }
     t match {
       // ! attention repeter code pour Deplacement et Prise
@@ -155,7 +144,7 @@ class GPositionS {
       case EnPassant =>
         e(X, O)
         e(O)
-        e(X + nord * `trait`)
+        e(X + nord * side)
       case Promotion =>
         etats(X) = m.piecePromotion
         e(O)
@@ -167,7 +156,7 @@ class GPositionS {
         R.unsetRoque()
       case _ =>
     }
-    `trait` = -`trait`
+    side = -side
     true
   }
 
@@ -181,21 +170,21 @@ class GPositionS {
   }
 
   def valideDroitRoque(gcoups: GCoups) {
-    val caseO: Int = gcoups.caseO
+    val caseO = gcoups.caseO
     gcoups.getPiece match {
       case ROI =>
         R.unsetRoque()
       case TOUR =>
-        if (caseO == caseTourH(`trait`)) {
-          unsetK(`trait`)
+        if (caseO == caseTourH(side)) {
+          unsetK(side)
         }
-        if (caseO == caseTourA(`trait`)) {
-          unsetQ(`trait`)
+        if (caseO == caseTourA(side)) {
+          unsetQ(side)
         }
       case _ =>
     }
-    if (etats(caseTourA(`trait`)) != `trait` * TOUR || etats(caseRoi(`trait`)) != `trait` * ROI) unsetQ(`trait`)
-    if (etats(caseTourH(`trait`)) != `trait` * TOUR || etats(caseRoi(`trait`)) != `trait` * ROI) unsetK(`trait`)
+    if (etats(caseTourA(side)) != side * TOUR || etats(caseRoi(side)) != side * ROI) unsetQ(side)
+    if (etats(caseTourH(side)) != side * TOUR || etats(caseRoi(side)) != side * ROI) unsetK(side)
   }
 
   def pionDeCouleur(s: Int, couleur: Int) = {
@@ -204,9 +193,14 @@ class GPositionS {
     typeDePiece == PION && couleurPiece == couleur
   }
 
-  def range() {
-    rang_final_$eq(if (couleur == NOIR) between(a1, h1) else between(a8, h8))
-    rang_initial_$eq(if (couleur == NOIR) between(98, 105) else between(38, 45))
+  def rangFinal(caseX: Int): Boolean = {
+    if (caseX >= a1 && caseX <= h1 && couleur == NOIR) true
+    else caseX >= a8 && caseX <= h8 && couleur == BLANC
+  }
+
+  def rangInitial(caseX: Int): Boolean = {
+    if (caseX >= 98 && caseX <= 105 && couleur == NOIR) true
+    else caseX >= 38 && caseX <= 45 && couleur == BLANC
   }
 
   def fCaseRoi(position: GPositionS, couleur: Int) = {
@@ -258,7 +252,7 @@ class GPositionS {
   }
 
   def pieceQuiALeTrait(caseO: Int) = {
-    val couleurPiece: Int = if (etats(caseO) < 0) BLANC else NOIR
+    val couleurPiece = if (etats(caseO) < 0) BLANC else NOIR
     !(etats(caseO) == VIDE) && couleurPiece == couleur
   }
 
@@ -297,10 +291,10 @@ class GPositionS {
     val NordSudSelonCouleur = if (couleur == BLANC) nord else sud
     var caseX = caseO + NordSudSelonCouleur
     if (etats(caseX) == VIDE) {
-      if (rang_final.contains(caseX)) addPseudoCoupsPromotion(caseO, caseX, 0)
+      if (rangFinal(caseX)) addPseudoCoupsPromotion(caseO, caseX, 0)
       else add(new GCoups(couleur * PION, caseO, caseX, 0, 0, 0, Deplacement, 0))
 
-      if (rang_initial.contains(caseO)) {
+      if (rangInitial(caseO)) {
         caseX += NordSudSelonCouleur
         if (etats(caseX) == VIDE) add(new GCoups(couleur * PION, caseO, caseX, 0, 0, 0, Deplacement, 0))
       }
@@ -322,7 +316,7 @@ class GPositionS {
   def diagonalePionPrise(caseO: Int, NordSudSelonCouleur: Int, estOuOuest: Int) {
     val caseX = caseO + NordSudSelonCouleur + estOuOuest
     if (pieceAdverse(caseX)) {
-      if (rang_final.contains(caseX)) addPseudoCoupsPromotion(caseO, caseX, etats(caseX))
+      if (rangFinal(caseX)) addPseudoCoupsPromotion(caseO, caseX, etats(caseX))
       else add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats(caseX), Prise, 0))
     }
   }
@@ -344,8 +338,8 @@ class GPositionS {
     false
   }
 
-  def getCoupsValides() = {
-    val generateur = new GPositionS(this, `trait`)
+  def coupsValides() = {
+    val generateur = new GPositionS(this, side)
     coupsvalides = generateur.getCoups
     estEnEchec = generateur.estEnEchec
     coupsvalides
@@ -353,35 +347,35 @@ class GPositionS {
 
 
   def isInCheck(pCouleur: Int) = {
-    getCoupsValides(pCouleur)
+    coupsValides(pCouleur)
     estEnEchec
   }
 
-  def getCoupsValides(t: Int) = {
-    val _trait = `trait`
+  def coupsValides(t: Int) = {
+    val _trait = side
     if (t == BLANC) {
-      `trait`=BLANC
-      val generateur = new GPositionS(this, `trait`)
+      side = BLANC
+      val generateur = new GPositionS(this, side)
       coupsvalides = generateur.getCoups
       estEnEchec = generateur.estEnEchec
-      `trait`=_trait
+      side = _trait
       coupsvalides
     }
     else {
-      `trait`=NOIR
-      val generateur = new GPositionS(this, `trait`)
+      side = NOIR
+      val generateur = new GPositionS(this, side)
       coupsvalides = generateur.getCoups
       estEnEchec = generateur.estEnEchec
-      `trait`=_trait
+      side = _trait
       coupsvalides
     }
   }
 
   def unexec(ug: UndoGCoups) {
-    arraycopy(ug.etats, 0, etats, 0, NB_CELLULES)
-    arraycopy(ug.roques, 0, roques, 0, 4)
+    copy(ug.etats, 0, etats, 0, NB_CELLULES)
+    copy(ug.roques, 0, roques, 0, 4)
     caseEP_$eq(ug.caseEP)
-    `trait` = -`trait`
+    side = -side
   }
 
   def getFullmoveNumber = _fullmoveNumber
@@ -394,25 +388,22 @@ class GPositionS {
     var Clr_str: String = null
     var rg: Int = 0
     for (e <- etats) {
-      val piecetype: Int = Math.abs(e)
-      Clr_str = if (piecetype == e) "B"
-      else "N"
-      piecetype match {
+      val piecetype = abs(e)
+      Clr_str = if (piecetype == e) "B" else "N"
+      e_str = piecetype match {
         case PION =>
-          e_str = "P"
+          "P"
         case ROI =>
-          e_str = "K"
+          "K"
         case VIDE =>
-          e_str = " "
+          " "
         case OUT =>
-          e_str = "X"
+          "X"
         case _ =>
-          e_str = STRING_PIECE(piecetype)
+          STRING_PIECE(piecetype)
       }
-      Clr_str = if ("X" == e_str) "X"
-      else Clr_str
-      Clr_str = if (" " == e_str) "_"
-      else Clr_str
+      Clr_str = if ("X" == e_str) "X" else Clr_str
+      Clr_str = if (" " == e_str) "_" else Clr_str
       str += e_str + Clr_str + " "
       rg += 1
       if (rg == 12) {

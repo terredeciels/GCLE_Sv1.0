@@ -43,7 +43,7 @@ public class SANUtils {
             throw new SANException("Invalid SAN string [" + pSAN + ']', null);
         }
 
-        final boolean trait = gPosition.trait() == ICodage.BLANC();
+        final boolean trait = gPosition.side() == ICodage.BLANC();
         if ("0-0".equals(pSAN)) {
             // Gère les petits roques...
             if (trait) {
@@ -80,7 +80,7 @@ public class SANUtils {
 
         final boolean prise = pSAN.indexOf('x') >= 0;
 //        final List<GCoups> mvts = new ArrayList<>(gPosition.getCoupsValides());
-        final ListBuffer<GCoups> mvts = gPosition.getCoupsValides();
+        final ListBuffer<GCoups> mvts = gPosition.coupsValides();
 //         System.out.println("gPosition83= " + gPosition.print());
 //        System.out.println("mvts83= " + mvts);
         for (int i = mvts.size() - 1; i >= 0; i--) {
@@ -228,7 +228,7 @@ public class SANUtils {
             throw new NullPointerException("Missing move");
         }
 
-        final boolean trait = gPosition.trait() == ICodage.BLANC();
+        final boolean trait = gPosition.side() == ICodage.BLANC();
         final int piece = pMouvement.getPiece();
         final int t = Math.abs(piece);
         final StringBuilder sb = new StringBuilder();
@@ -237,7 +237,7 @@ public class SANUtils {
 
         UndoGCoups ug = new UndoGCoups();
         gPosition.exec(pMouvement, ug);
-        final int nbMvts = gPosition.getCoupsValides(-gPosition.trait()).size();
+        final int nbMvts = gPosition.coupsValides(-gPosition.side()).size();
         gPosition.unexec(ug);
 
         final int xSrc = getFile(src);
@@ -254,7 +254,7 @@ public class SANUtils {
 
             // Recherche et levée des éventuelles ambiguités...
             if (t != ICodage.PION()) {
-                ListBuffer<GCoups> mvts = gPosition.getCoupsValides(gPosition.trait());
+                ListBuffer<GCoups> mvts = gPosition.coupsValides(gPosition.side());
 
                 // final ArrayList<GCoups> mvts = new ArrayList(coupsValides);
 //                System.out.println(mvts);
@@ -324,7 +324,7 @@ public class SANUtils {
             }
         }
 
-        if (gPosition.isInCheck(-gPosition.trait())) {
+        if (gPosition.isInCheck(-gPosition.side())) {
             // Echec / Mat ...
             sb.append('+');
             if (nbMvts == 0) {

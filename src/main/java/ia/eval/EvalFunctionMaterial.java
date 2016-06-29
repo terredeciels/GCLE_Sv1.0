@@ -100,7 +100,7 @@ public class EvalFunctionMaterial implements IEval {
                         int _trait = traitPiece ? ICodage.BLANC() : ICodage.NOIR();
 
                         if ((traitPiece != pTrait) && (gp.getFullmoveNumber() > 10) && gp.isInCheck(_trait)) {
-                            if (gp.getCoupsValides(_trait).isEmpty()) {
+                            if (gp.coupsValides(_trait).isEmpty()) {
                                 // Malus pour un mat...
                                 pos = IIA.MAT_VALUE;
                             } else {

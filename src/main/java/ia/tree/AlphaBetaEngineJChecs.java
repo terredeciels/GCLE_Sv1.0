@@ -22,7 +22,7 @@ public class AlphaBetaEngineJChecs implements IIA {
 
     private int alphabeta(final GPositionS gp, final int pProfondeur, final int pAlpha, final int pBeta) {
 
-        final int trait = gp.trait();
+        final int trait = gp.side();
         if (pProfondeur == 0) {
             return evaluate(gp, trait);
         }
@@ -60,7 +60,7 @@ public class AlphaBetaEngineJChecs implements IIA {
 
     @Override
     public GCoups search() {
-        return searchMoveFor(gp, gp.getCoupsValides());
+        return searchMoveFor(gp, gp.coupsValides());
     }
 
     public GCoups searchMoveFor(final GPositionS gp, final ListBuffer<GCoups> pCoups) {
@@ -90,7 +90,7 @@ public class AlphaBetaEngineJChecs implements IIA {
     }
 
     private ListBuffer<GCoups> getValidMoves(GPositionS gp, int trait) {
-        return gp.getCoupsValides(trait);
+        return gp.coupsValides(trait);
     }
 
 }

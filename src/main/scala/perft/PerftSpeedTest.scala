@@ -38,7 +38,7 @@ object PerftSpeedTest {
       result.moveCount += 1
       return result
     }
-    val moves: ListBuffer[GCoups] = gp.getCoupsValides()
+    val moves: ListBuffer[GCoups] = gp.coupsValides()
     val it: Iterator[GCoups] = moves.iterator
     while (it.hasNext) {
       {

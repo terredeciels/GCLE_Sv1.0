@@ -33,7 +33,7 @@ public class GPositionTest {
 //        ArrayList<GCoups> result_blanc = instance.getCoupsValides(BLANC);
         String fen = "rnbq1rk1/ppp1bppp/4pn2/3P4/3P1B2/2N2N2/PP2PPPP/R2QKB1R b KQ - 0 6";
         GPositionS instance = FenToGPosition.toGPosition(fen);
-        ListBuffer<GCoups> result = instance.getCoupsValides(instance.trait());//noirs
+        ListBuffer<GCoups> result = instance.coupsValides(instance.side());//noirs
         System.out.println(result);
 
     }

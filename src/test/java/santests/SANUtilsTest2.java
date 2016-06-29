@@ -45,7 +45,7 @@ public final class SANUtilsTest2 {
 //            mvt = toMove(etat, "Na6");
 //            assertEquals(new GCoups(NOIR * CAVALIER, b8, a6, 0, Deplacement), mvt);
 //            etat.exec(mvt, ug);
-            gp.getCoupsValides();
+            gp.coupsValides();
             System.out.println(gp);
             GCoups mvt = toMove(gp, "Rxe7");
             GCoups gCoups = new GCoups(ICodage.BLANC() * ICodage.TOUR(), ICodage.e1(), ICodage.e7(), 0, 0, ICodage.NOIR() * ICodage.FOU(), TypeDeCoups.Prise(), 0);

@@ -40,7 +40,7 @@ object FenToGPosition {
       }
     }
     gp.etats = etats
-    gp.`trait` = if (position.getToPlay == Chess.WHITE) BLANC
+    gp.side = if (position.getToPlay == Chess.WHITE) BLANC
     else NOIR
     val cp_roques: Int = position.getCastles
     gp.roques(0) = (2 & cp_roques) == 2

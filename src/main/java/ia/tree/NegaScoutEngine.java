@@ -29,7 +29,7 @@ public class NegaScoutEngine implements IIA {
      */
     private int negascout(final GPositionS gp, final int depth, final int pAlpha, final int pBeta, final int pLimite) {
 
-        final int trait = gp.trait();
+        final int trait = gp.side();
 
         if (depth <= pLimite) {
             final int valeur = evaluate(gp, trait);
@@ -51,7 +51,7 @@ public class NegaScoutEngine implements IIA {
             final GCoups mvt = coups.apply(i);
             gp.exec(mvt, ug);
             final int limite;
-            if (((depth == 1) && ((l <= 3) || (mvt.getPiecePrise() != 0))) || gp.isInCheck(gp.trait())) {
+            if (((depth == 1) && ((l <= 3) || (mvt.getPiecePrise() != 0))) || gp.isInCheck(gp.side())) {
                 limite = -1;
             } else {
                 limite = 0;
@@ -103,7 +103,7 @@ public class NegaScoutEngine implements IIA {
 
     @Override
     public GCoups search() {
-        return searchMoveFor(gp, gp.getCoupsValides());
+        return searchMoveFor(gp, gp.coupsValides());
     }
 
     private int evaluate(GPositionS gp, int trait) {
@@ -111,6 +111,6 @@ public class NegaScoutEngine implements IIA {
     }
 
     private ListBuffer<GCoups> getValidMoves(GPositionS gp, int trait) {
-        return gp.getCoupsValides(trait);
+        return gp.coupsValides(trait);
     }
 }

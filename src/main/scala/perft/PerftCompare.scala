@@ -70,7 +70,7 @@ object Perft {
       result.moveCount += 1
       return result
     }
-    val moves: ListBuffer[GCoups] = gp.getCoupsValides()
+    val moves: ListBuffer[GCoups] = gp.coupsValides()
     var i: Int = 0
     while (i < moves.size) {
       {

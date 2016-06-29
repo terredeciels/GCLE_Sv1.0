@@ -27,6 +27,6 @@ public class RandomEngine implements IIA {
 
     @Override
     public GCoups search() {
-        return searchMoveFor(gp, gp.getCoupsValides());
+        return searchMoveFor(gp, gp.coupsValides());
     }
 }

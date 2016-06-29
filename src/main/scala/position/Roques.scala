@@ -62,13 +62,13 @@ object Roques {
 
 class Roques {
 
-  var `trait`: Int = 0
+  var side = 0
 
   def unsetRoque() {
-    if (`trait` == BLANC) {
+    if (side == BLANC) {
       Roques.unsetKQ()
     }
-    else if (`trait` == NOIR) {
+    else if (side == NOIR) {
       Roques.unsetkq()
     }
   }

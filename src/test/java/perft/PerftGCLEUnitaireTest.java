@@ -101,7 +101,7 @@ public class PerftGCLEUnitaireTest {
         if (depth == 0) {
             return 1;
         }
-        ListBuffer<GCoups> moves = gp.getCoupsValides();
+        ListBuffer<GCoups> moves = gp.coupsValides();
         for (int i = 0; i < moves.size(); i++) {
             GCoups gcoups = moves.apply(i);
             UndoGCoups ui = new UndoGCoups();
