@@ -6,7 +6,7 @@ import Roques._
 object Roques {
   val roques= new Array[Boolean](4)
   var o_o = Array(Array(e1, g1, h1, f1), Array(e1, c1, a1, d1, b1), Array(e8, g8, h8, f8), Array(e8, c8, a8, d8, b8))
-
+ val  itRoque=Iterator(0,1,2,3)
   def unsetKQ() ={
     roques(0) = false
     roques(1) = false

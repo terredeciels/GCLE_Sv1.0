@@ -194,19 +194,8 @@ class GPositionS {
 
 
 
-  def fCaseRoi(p: GPositionS, couleur: Int) = {
-   // var caseRoi = OUT
-
-  CASES117.find(caseO => p.etats(caseO)==couleur*ROI).get
-
-//    for (caseO <- CASES117) {
-//      if(p.etats(caseO)==couleur*ROI){
-//        caseRoi = caseO
-//        caseRoi
-//      }
-//    }
-//    caseRoi
-  }
+  def fCaseRoi(p: GPositionS, couleur: Int): Int
+  = CASES117.find(caseO => p.etats(caseO)==couleur*ROI).get
 
   def ajouterRoques() {
     val coupsAttaque = new GPositionS(true).pseudoC(gp, -couleur)
