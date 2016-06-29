@@ -31,7 +31,8 @@ class GPositionS {
 
   def this(g_position: GPositionS, couleur: Int) {
     this()
-    setPseudoCoups(new ListBuffer[GCoups])
+   // setPseudoCoups(new ListBuffer[GCoups])
+    pseudoCoups = new ListBuffer[GCoups]
     gp_$eq(g_position)
     couleur_$eq(couleur)
     etats_$eq(gp.etats)
@@ -166,12 +167,8 @@ class GPositionS {
       case ROI =>
         R.unsetRoque()
       case TOUR =>
-        if (caseO == caseTourH(side)) {
-          unsetK(side)
-        }
-        if (caseO == caseTourA(side)) {
-          unsetQ(side)
-        }
+        if (caseO == caseTourH(side)) unsetK(side)
+        if (caseO == caseTourA(side)) unsetQ(side)
       case _ =>
     }
     if (etats(caseTourA(side)) != side * TOUR || etats(caseRoi(side)) != side * ROI) unsetQ(side)
@@ -184,27 +181,31 @@ class GPositionS {
     typeDePiece == PION && couleurPiece == couleur
   }
 
-  def rangFinal(caseX: Int): Boolean = {
+  def rangFinal(caseX: Int) = {
     if (caseX >= a1 && caseX <= h1 && couleur == NOIR) true
     else caseX >= a8 && caseX <= h8 && couleur == BLANC
   }
 
-  def rangInitial(caseX: Int): Boolean = {
+  def rangInitial(caseX: Int) = {
     if (caseX >= 98 && caseX <= 105 && couleur == NOIR) true
     else caseX >= 38 && caseX <= 45 && couleur == BLANC
   }
 
-  def fCaseRoi(position: GPositionS, couleur: Int) = {
-    var caseRoi = OUT
-    for (caseO <- CASES117) {
-      val etatO = position.etats(caseO)
-      val typeO = abs(etatO)
-      if (typeO == ROI && etatO * couleur > 0) {
-        caseRoi = caseO
-        caseRoi
-      }
-    }
-    caseRoi
+
+
+
+  def fCaseRoi(p: GPositionS, couleur: Int) = {
+   // var caseRoi = OUT
+
+  CASES117.find(caseO => p.etats(caseO)==couleur*ROI).get
+
+//    for (caseO <- CASES117) {
+//      if(p.etats(caseO)==couleur*ROI){
+//        caseRoi = caseO
+//        caseRoi
+//      }
+//    }
+//    caseRoi
   }
 
   def ajouterRoques() {
@@ -225,9 +226,12 @@ class GPositionS {
   }
 
   def pseudoC(gp: GPositionS, couleur: Int) = {
-    setPseudoCoups(new ListBuffer[GCoups])
-    etats_$eq(gp.etats)
-    couleur_$eq(couleur)
+    //setPseudoCoups(new ListBuffer[GCoups])
+    pseudoCoups = new ListBuffer[GCoups]
+    //etats_$eq(gp.etats)
+    etats=gp.etats
+    this.couleur=couleur
+   // couleur_$eq(couleur)
     for (s <- CASES117) {
       if (pieceQuiALeTrait(s)) {
         val etat = _PIECE_TYPE(if (etats(s) < 0) -etats(s) else etats(s))
@@ -236,10 +240,6 @@ class GPositionS {
       }
     }
     pseudoCoups
-  }
-
-  def setPseudoCoups(pseudoc: ListBuffer[GCoups]) {
-    pseudoCoups = pseudoc
   }
 
   def pieceQuiALeTrait(caseO: Int) = {
