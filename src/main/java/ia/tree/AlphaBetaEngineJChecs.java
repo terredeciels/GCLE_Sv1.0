@@ -5,8 +5,9 @@ import ia.IIA;
 import position.GCoups;
 import position.GPositionS;
 import position.UndoGCoups;
-
-import java.util.List;
+import scala.collection.Iterator;
+import scala.collection.immutable.List;
+import scala.collection.mutable.ListBuffer;
 
 public class AlphaBetaEngineJChecs implements IIA {
 
@@ -27,7 +28,7 @@ public class AlphaBetaEngineJChecs implements IIA {
             return evaluate(gp, trait);
         }
 
-        final List<GCoups> coups = getValidMoves(gp, trait);
+        final ListBuffer<GCoups> coups = getValidMoves(gp, trait);
 
         final int l = coups.size();
         if (l == 0) {
@@ -36,8 +37,9 @@ public class AlphaBetaEngineJChecs implements IIA {
 
         int res = MAT_VALUE - 1;
         int alpha = pAlpha;
-
-        for (final GCoups mvt : coups) {
+      Iterator<GCoups> it = coups.iterator();
+        while (it.hasNext()) {
+            GCoups mvt=it.next();
             UndoGCoups ug = new UndoGCoups();
             gp.exec(mvt, ug);
             final int note = -alphabeta(gp, pProfondeur - 1, -pBeta, -alpha);
@@ -62,14 +64,16 @@ public class AlphaBetaEngineJChecs implements IIA {
         return searchMoveFor(gp, gp.getCoupsValides());
     }
 
-    public GCoups searchMoveFor(final GPositionS gp, final List<GCoups> pCoups) {
+    public GCoups searchMoveFor(final GPositionS gp, final ListBuffer<GCoups> pCoups) {
 
         final int l = pCoups.size();
 
-        GCoups res = pCoups.get(0);
+        GCoups res = pCoups.apply(0);
         int alpha = MAT_VALUE - 1;
-        for (final GCoups mvt : pCoups) {
 
+        Iterator<GCoups> it = pCoups.iterator();
+        while (it.hasNext()) {
+GCoups mvt= it.next();
             UndoGCoups ug = new UndoGCoups();
             gp.exec(mvt, ug);
             final int note = -alphabeta(gp, depth - 1, MAT_VALUE, -alpha);
@@ -86,7 +90,7 @@ public class AlphaBetaEngineJChecs implements IIA {
         return f_eval.evaluate(gp, trait);
     }
 
-    private List<GCoups> getValidMoves(GPositionS gp, int trait) {
+    private ListBuffer<GCoups> getValidMoves(GPositionS gp, int trait) {
         return gp.getCoupsValides(trait);
     }
 

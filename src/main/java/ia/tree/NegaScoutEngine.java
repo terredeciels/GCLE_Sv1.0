@@ -5,6 +5,8 @@ import ia.IIA;
 import position.GCoups;
 import position.GPositionS;
 import position.UndoGCoups;
+import scala.collection.Iterator;
+import scala.collection.mutable.ListBuffer;
 
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class NegaScoutEngine implements IIA {
             return valeur;
         }
 
-        final List<GCoups> coups = getValidMoves(gp, trait);
+        final ListBuffer<GCoups> coups = getValidMoves(gp, trait);
         final int l = coups.size();
         if (l == 0) {
             final int valeur = evaluate(gp, trait);
@@ -48,7 +50,7 @@ public class NegaScoutEngine implements IIA {
 
         for (int i = 0; i < l; i++) {
             UndoGCoups ug = new UndoGCoups();
-            final GCoups mvt = coups.get(i);
+            final GCoups mvt = coups.apply(i);
             gp.exec(mvt, ug);
             final int limite;
             if (((depth == 1) && ((l <= 3) || (mvt.getPiecePrise() != 0))) || gp.isInCheck(gp.getTrait())) {
@@ -81,12 +83,14 @@ public class NegaScoutEngine implements IIA {
         return res;
     }
 
-    protected GCoups searchMoveFor(final GPositionS gp, final List<GCoups> pCoups) {
+    protected GCoups searchMoveFor(final GPositionS gp, final ListBuffer<GCoups> pCoups) {
 
         final int l = pCoups.size();
-        GCoups res = pCoups.get(0);
+        GCoups res = pCoups.apply(0);
         int alpha = MAT_VALUE - 1;
-        for (final GCoups mvt : pCoups) {
+       Iterator<GCoups> it = pCoups.iterator();
+        while (it.hasNext()) {
+            GCoups mvt=it.next();
             UndoGCoups ug = new UndoGCoups();
             gp.exec(mvt, ug);
             final int note = -negascout(gp, depth - 1, MAT_VALUE, -alpha, 0);
@@ -108,7 +112,7 @@ public class NegaScoutEngine implements IIA {
         return f_eval.evaluate(gp, trait);
     }
 
-    private List<GCoups> getValidMoves(GPositionS gp, int trait) {
+    private ListBuffer<GCoups> getValidMoves(GPositionS gp, int trait) {
         return gp.getCoupsValides(trait);
     }
 }

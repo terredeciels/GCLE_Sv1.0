@@ -2,15 +2,13 @@ package position
 
 import java.lang.System._
 import java.util
-
 import org.apache.commons.lang3.Range
 import org.apache.commons.lang3.Range._
 import position.GPositionS._
+import position.ICodage._
 import position.Roques._
 import position.TypeDeCoups._
-import ICodage._
-
-import scala.collection.mutable
+import scala.collection.mutable._
 
 object GPositionS {
   def abs(x: Int): Int = {
@@ -25,7 +23,6 @@ object GPositionS {
 }
 
 class GPositionS {
-  //recherchePionAttaqueRoque_$eq(false)
   val roques: Array[Boolean] = Roques.roques
   val R: Roques = new Roques
   val ROI: Int = 6
@@ -39,22 +36,22 @@ class GPositionS {
   var etats: Array[Int] = new Array[Int](ICodage.NB_CELLULES)
   var caseEP: Int = 0
   var couleur: Int = 0
-  var pseudoCoups: util.List[GCoups] = null
-  //var pseudoCoups: mutable.Buffer = null
+  //var pseudoCoups: util.List[GCoups] = null
+  var pseudoCoups: ListBuffer[GCoups] = null
   var rang_final: Range[Integer] = null
   var rang_initial: Range[Integer] = null
   var gp: GPositionS = _
   var `trait`: Int = 0
   var _halfmoveCount: Int = 0
   var _fullmoveNumber: Int = 0
-  var coupsvalides: util.List[GCoups] = null
+  var coupsvalides: ListBuffer[GCoups] = null
   var estEnEchec: Boolean = false
   var caseO: Int = 0
   var recherchePionAttaqueRoque: Boolean = false
 
   def this(g_position: GPositionS, couleur: Int) {
     this()
-    setPseudoCoups(new util.ArrayList[GCoups])
+    setPseudoCoups(new ListBuffer[GCoups])
     gp_$eq(g_position)
     couleur_$eq(couleur)
     etats_$eq(gp.etats)
@@ -91,25 +88,25 @@ class GPositionS {
   }
 
   def add(coups: GCoups) {
-    this.pseudoCoups.add(coups)
+    this.pseudoCoups+=coups
   }
 
-  def getCoups: util.List[GCoups] = {
+  def getCoups: ListBuffer[GCoups] = {
     pseudoC(this, couleur)
     ajouterRoques()
     ajouterCoupsEP()
-    pseudoCoups.removeAll(coupsEnEchec)
+    pseudoCoups --= coupsEnEchec
     pseudoCoups
   }
 
-  def coupsEnEchec: util.List[GCoups] = {
-    val aRetirer: util.List[GCoups] = new util.ArrayList[GCoups]
+  def coupsEnEchec: ListBuffer[GCoups] = {
+    val aRetirer: ListBuffer[GCoups] = new ListBuffer[GCoups]
     var caseRoiCouleur: Int = 0
     import scala.collection.JavaConversions._
     for (coups <- pseudoCoups) {
       val positionSimul: GPositionS = fPositionSimul(coups, couleur)
       caseRoiCouleur = fCaseRoi(positionSimul, couleur)
-      val pseudoCoupsPosSimul: util.List[GCoups] = new GPositionS(true).pseudoC(positionSimul, -couleur)
+      val pseudoCoupsPosSimul: ListBuffer[GCoups] = new GPositionS(true).pseudoC(positionSimul, -couleur)
       estEnEchec_$eq(fAttaque(caseRoiCouleur, -1, -1, pseudoCoupsPosSimul))
       if (estEnEchec) {
         aRetirer.add(coups)
@@ -219,7 +216,7 @@ class GPositionS {
     }
   }
 
-  def pionDeCouleur(s: Int, couleur: Int): Boolean = {
+  def pionDeCouleur(s: Int, couleur: Int) = {
     val typeDePiece: Int = if (etats(s) < 0) -etats(s)
     else etats(s)
     val couleurPiece: Int = if (etats(s) < 0) BLANC
@@ -234,7 +231,7 @@ class GPositionS {
     else between(38, 45))
   }
 
-  def fCaseRoi(position: GPositionS, couleur: Int): Int = {
+  def fCaseRoi(position: GPositionS, couleur: Int) = {
     var caseRoi: Int = OUT
     var etatO: Int = 0
     var typeO: Int = 0
@@ -251,7 +248,7 @@ class GPositionS {
   }
 
   def ajouterRoques() {
-    val coupsAttaque: util.List[GCoups] = new GPositionS(true).pseudoC(gp, -couleur)
+    val coupsAttaque: ListBuffer[GCoups] = new GPositionS(true).pseudoC(gp, -couleur)
     val e: Array[Int] = gp.etats
     var `type`: Integer = 0
     while (`type` < 4) {
@@ -271,8 +268,8 @@ class GPositionS {
     }
   }
 
-  def pseudoC(gp: GPositionS, couleur: Int): util.List[GCoups] = {
-    setPseudoCoups(new util.ArrayList[GCoups])
+  def pseudoC(gp: GPositionS, couleur: Int): ListBuffer[GCoups] = {
+    setPseudoCoups(new ListBuffer[GCoups])
     etats_$eq(gp.etats)
     couleur_$eq(couleur)
     for (s <- CASES117) {
@@ -286,7 +283,7 @@ class GPositionS {
     pseudoCoups
   }
 
-  def setPseudoCoups(pseudoc: util.List[GCoups]) {
+  def setPseudoCoups(pseudoc: ListBuffer[GCoups]) {
     this.pseudoCoups = pseudoc
   }
 
@@ -338,9 +335,8 @@ class GPositionS {
   }
 
   def ajouterCoups(caseO: Int, caseX: Int, type_de_coups: TypeDeCoups) {
-    if (type_de_coups ne TypeDeCoups.Null) {
-      pseudoCoups.add(new GCoups(etats(caseO), caseO, caseX, 0, 0, etats(caseX), type_de_coups, 0))
-    }
+    if (type_de_coups ne TypeDeCoups.Null) pseudoCoups+=
+      new GCoups(etats(caseO), caseO, caseX, 0, 0, etats(caseX), type_de_coups, 0)
   }
 
   def pseudoCoups(recherchePionAttaqueRoque: Boolean) {
@@ -401,7 +397,7 @@ class GPositionS {
     add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, TypeDeCoups.Promotion, couleur * TOUR))
   }
 
-  def fAttaque(caseRoi: Int, F1ouF8: Int, G1ouG8: Int, coups: util.List[GCoups]): Boolean = {
+  def fAttaque(caseRoi: Int, F1ouF8: Int, G1ouG8: Int, coups: ListBuffer[GCoups]): Boolean = {
     import scala.collection.JavaConversions._
     for (coup <- coups) {
       val caseX: Int = coup.caseX
@@ -410,19 +406,21 @@ class GPositionS {
     false
   }
 
-  def getCoupsValides: util.List[GCoups] = {
+  def getCoupsValides() = {
     val generateur: GPositionS = new GPositionS(this, `trait`)
     coupsvalides = generateur.getCoups
     estEnEchec = generateur.estEnEchec
     coupsvalides
   }
 
-  def isInCheck(pCouleur: Int): Boolean = {
+
+
+  def isInCheck(pCouleur: Int) = {
     getCoupsValides(pCouleur)
     estEnEchec
   }
 
-  def getCoupsValides(t: Int): util.List[GCoups] = {
+  def getCoupsValides(t: Int): ListBuffer[GCoups] = {
     val _trait: Int = `trait`
     if (t == BLANC) {
       setTrait(BLANC)

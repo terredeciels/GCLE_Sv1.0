@@ -2,6 +2,7 @@ package perft;
 
 import org.junit.*;
 import position.*;
+import scala.collection.mutable.ListBuffer;
 
 import java.util.List;
 
@@ -79,9 +80,9 @@ public class PerftGCLEPosInitTest {
         if (depth == 0) {
             return 1;
         }
-        List<GCoups> moves = gp.getCoupsValides();
+        ListBuffer<GCoups> moves = gp.getCoupsValides();
         for (int i = 0; i < moves.size(); i++) {
-            GCoups gcoups = moves.get(i);
+            GCoups gcoups = moves.apply(i);
             UndoGCoups ui = new UndoGCoups();
             gp.exec(gcoups, ui);
 //            if (gcoups.getTypeDeCoups().equals(Roque)) {

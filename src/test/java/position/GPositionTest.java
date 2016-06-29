@@ -1,6 +1,7 @@
 package position;
 
 import org.junit.*;
+import scala.collection.mutable.ListBuffer;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class GPositionTest {
 //        ArrayList<GCoups> result_blanc = instance.getCoupsValides(BLANC);
         String fen = "rnbq1rk1/ppp1bppp/4pn2/3P4/3P1B2/2N2N2/PP2PPPP/R2QKB1R b KQ - 0 6";
         GPositionS instance = FenToGPosition.toGPosition(fen);
-        List<GCoups> result = instance.getCoupsValides(instance.getTrait());//noirs
+        ListBuffer<GCoups> result = instance.getCoupsValides(instance.getTrait());//noirs
         System.out.println(result);
 
     }

@@ -1,6 +1,7 @@
 package sanutils;
 
 import position.*;
+import scala.collection.mutable.ListBuffer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,11 +82,11 @@ public class SANUtils {
 
         final boolean prise = pSAN.indexOf('x') >= 0;
 //        final List<GCoups> mvts = new ArrayList<>(gPosition.getCoupsValides());
-        final List<GCoups> mvts = gPosition.getCoupsValides();
+        final ListBuffer<GCoups> mvts = gPosition.getCoupsValides();
 //         System.out.println("gPosition83= " + gPosition.print());
 //        System.out.println("mvts83= " + mvts);
         for (int i = mvts.size() - 1; i >= 0; i--) {
-            final GCoups m = mvts.get(i);
+            final GCoups m = mvts.apply(i);
             final boolean capture = m.getPiecePrise() != 0;
             if ((piece != m.getPiece()) || (prise != capture)) {
                 mvts.remove(i);
@@ -98,13 +99,13 @@ public class SANUtils {
         }
         final int dst = valueOf(pSAN.substring(posDst - 1, posDst + 1));
         for (int i = mvts.size() - 1; i >= 0; i--) {
-            final GCoups m = mvts.get(i);
+            final GCoups m = mvts.apply(i);
             if (dst != m.getCaseX()) {
                 mvts.remove(i);
             }
         }
         if (mvts.size() == 1) {
-            return mvts.get(0);
+            return mvts.apply(0);
         }
 
         if ((mvts.size() > 1) && (((piece == ICodage.NOIR() * ICodage.PION()) && (getRank(dst) == 0))
@@ -117,7 +118,7 @@ public class SANUtils {
             if (posDst > 0) {
                 c = pSAN.charAt(posDst);
                 for (int i = mvts.size() - 1; i >= 0; i--) {
-                    final int prom = mvts.get(i).getPiecePromotion();
+                    final int prom = mvts.apply(i).getPiecePromotion();
                     int t = Math.abs(prom);
                     if ((prom == 0)
                             //                            || (prom.getType().getSANLetter().charAt(0) != c)) {
@@ -127,7 +128,7 @@ public class SANUtils {
                 }
             } else {
                 for (int i = mvts.size() - 1; i >= 0; i--) {
-                    if (mvts.get(i).getPiecePromotion() != 0) {
+                    if (mvts.apply(i).getPiecePromotion() != 0) {
                         mvts.remove(i);
                     }
                 }
@@ -140,7 +141,7 @@ public class SANUtils {
             if (Character.isLowerCase(c)) {
                 final int col = c - 'a';
                 for (int i = mvts.size() - 1; i >= 0; i--) {
-                    final GCoups m = mvts.get(i);
+                    final GCoups m = mvts.apply(i);
                     if (col != getFile(m.getCaseO())) {
                         mvts.remove(i);
                     }
@@ -153,7 +154,7 @@ public class SANUtils {
             if (Character.isDigit(c)) {
                 final int lig = c - '1';
                 for (int i = mvts.size() - 1; i >= 0; i--) {
-                    final GCoups m = mvts.get(i);
+                    final GCoups m = mvts.apply(i);
                     if (lig != getRank(m.getCaseO())) {
                         mvts.remove(i);
                     }
@@ -169,7 +170,7 @@ public class SANUtils {
             throw new SANException("Illegal SAN string context [" + pSAN + ']', null);
         }
 
-        return mvts.get(0);
+        return mvts.apply(0);
     }
 
     private static int valueOf(final String pChaine) {
@@ -255,17 +256,19 @@ public class SANUtils {
 
             // Recherche et levée des éventuelles ambiguités...
             if (t != ICodage.PION()) {
-                final List<GCoups> mvts = new ArrayList<>(gPosition.getCoupsValides(gPosition.getTrait()));
+                ListBuffer<GCoups> mvts = gPosition.getCoupsValides(gPosition.getTrait());
+
+               // final ArrayList<GCoups> mvts = new ArrayList(coupsValides);
 //                System.out.println(mvts);
                 for (int i = mvts.size() - 1; i >= 0; i--) {
-                    final GCoups m = mvts.get(i);
+                    final GCoups m = mvts.apply(i);
                     if ((piece != m.getPiece()) || (dst != m.getCaseX()) || (m.equals(pMouvement))) {
                         mvts.remove(i);
                     }
                 }
                 boolean preciser = true;
                 for (int i = mvts.size() - 1; i >= 0; i--) {
-                    final GCoups m = mvts.get(i);
+                    final GCoups m = mvts.apply(i);
                     if (xSrc != getFile(m.getCaseO())) {
                         mvts.remove(i);
                         if (preciser) {
@@ -276,7 +279,7 @@ public class SANUtils {
                 }
                 final int ySrc = getRank(src);
                 for (int i = mvts.size() - 1; i >= 0; i--) {
-                    final GCoups m = mvts.get(i);
+                    final GCoups m = mvts.apply(i);
                     if (ySrc != getRank(m.getCaseO())) {
                         sb.append((char) ('1' + ySrc));
                         break;

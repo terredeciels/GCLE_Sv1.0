@@ -5,6 +5,7 @@ import position.FenToGPosition;
 import position.GCoups;
 import position.GPositionS;
 import position.UndoGCoups;
+import scala.collection.mutable.ListBuffer;
 
 import java.util.List;
 
@@ -102,9 +103,9 @@ public class PerftGCLEUnitaireTest {
         if (depth == 0) {
             return 1;
         }
-        List<GCoups> moves = gp.getCoupsValides();
+        ListBuffer<GCoups> moves = gp.getCoupsValides();
         for (int i = 0; i < moves.size(); i++) {
-            GCoups gcoups = moves.get(i);
+            GCoups gcoups = moves.apply(i);
             UndoGCoups ui = new UndoGCoups();
 
             if (gp.exec(gcoups, ui)) {
