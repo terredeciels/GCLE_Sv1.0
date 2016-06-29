@@ -7,8 +7,6 @@ import position.GPositionS;
 import position.UndoGCoups;
 import scala.collection.mutable.ListBuffer;
 
-import java.util.List;
-
 public class PerftGCLEUnitaireTest {
 
     private int node_roque;

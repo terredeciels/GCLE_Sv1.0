@@ -3,8 +3,6 @@ package position;
 import org.junit.*;
 import scala.collection.mutable.ListBuffer;
 
-import java.util.List;
-
 
 public class GPositionTest {
 

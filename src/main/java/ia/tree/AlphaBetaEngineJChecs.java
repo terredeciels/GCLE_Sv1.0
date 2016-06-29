@@ -6,7 +6,6 @@ import position.GCoups;
 import position.GPositionS;
 import position.UndoGCoups;
 import scala.collection.Iterator;
-import scala.collection.immutable.List;
 import scala.collection.mutable.ListBuffer;
 
 public class AlphaBetaEngineJChecs implements IIA {
@@ -37,9 +36,9 @@ public class AlphaBetaEngineJChecs implements IIA {
 
         int res = MAT_VALUE - 1;
         int alpha = pAlpha;
-      Iterator<GCoups> it = coups.iterator();
+        Iterator<GCoups> it = coups.iterator();
         while (it.hasNext()) {
-            GCoups mvt=it.next();
+            GCoups mvt = it.next();
             UndoGCoups ug = new UndoGCoups();
             gp.exec(mvt, ug);
             final int note = -alphabeta(gp, pProfondeur - 1, -pBeta, -alpha);
@@ -73,7 +72,7 @@ public class AlphaBetaEngineJChecs implements IIA {
 
         Iterator<GCoups> it = pCoups.iterator();
         while (it.hasNext()) {
-GCoups mvt= it.next();
+            GCoups mvt = it.next();
             UndoGCoups ug = new UndoGCoups();
             gp.exec(mvt, ug);
             final int note = -alphabeta(gp, depth - 1, MAT_VALUE, -alpha);

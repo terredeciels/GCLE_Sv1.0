@@ -3,6 +3,7 @@ package perft
 import java.io.{BufferedReader, FileReader, IOException}
 
 import position.{FenToGPosition, GCoups, GPositionS, UndoGCoups}
+
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
@@ -16,7 +17,7 @@ object PerftCompare {
     var line: String = null
     var passes: Int = 0
     var fails: Int = 0
-    line=reader.readLine
+    line = reader.readLine
     while (line != null) {
       val parts: Array[String] = line.split(";")
       if (parts.length < 3) {
@@ -48,7 +49,7 @@ object PerftCompare {
           i += 1
         }
       }
-      line=reader.readLine
+      line = reader.readLine
     }
     System.out.println("Passed: " + passes)
     System.out.println("Failed: " + fails)
@@ -56,6 +57,7 @@ object PerftCompare {
 
 
 }
+
 class PerftResult {
   var moveCount: Long = 0
   var timeTaken: Long = 0

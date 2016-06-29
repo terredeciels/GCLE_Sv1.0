@@ -21,7 +21,7 @@ object PerftSpeedTest {
     var depth: Int = 1
     while (depth <= max_depth) {
       {
-        val res= perft(gp, depth)
+        val res = perft(gp, depth)
         val t1: Double = System.nanoTime
         System.out.println("Depth " + depth + " : " + (t1 - t0) / 1000000000 + " sec")
         System.out.println("Count = " + res.moveCount)
@@ -32,7 +32,7 @@ object PerftSpeedTest {
     }
   }
 
-  def perft(gp: GPositionS, depth: Int):PerftResult = {
+  def perft(gp: GPositionS, depth: Int): PerftResult = {
     val result: PerftResult = new PerftResult
     if (depth == 0) {
       result.moveCount += 1
@@ -44,12 +44,12 @@ object PerftSpeedTest {
       {
         val ui: UndoGCoups = new UndoGCoups
         if (gp.exec(it.next, ui)) {
-          val subPerft= perft(gp, depth - 1)
+          val subPerft = perft(gp, depth - 1)
           gp.unexec(ui)
           result.moveCount += subPerft.moveCount
         }
       }
     }
-     result
+    result
   }
 }

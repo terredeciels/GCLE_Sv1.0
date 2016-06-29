@@ -5,7 +5,6 @@ import position.GCoups;
 import position.GPositionS;
 import scala.collection.mutable.ListBuffer;
 
-import java.util.List;
 import java.util.Random;
 
 public class RandomEngine implements IIA {

@@ -8,8 +8,6 @@ import position.UndoGCoups;
 import scala.collection.Iterator;
 import scala.collection.mutable.ListBuffer;
 
-import java.util.List;
-
 /**
  * Moteur d'IA basé sur l'algorithme NegaScout (aussi appelé Principal Variation
  * Search), avec table de transposition, sur 5 demi-coups.
@@ -88,9 +86,9 @@ public class NegaScoutEngine implements IIA {
         final int l = pCoups.size();
         GCoups res = pCoups.apply(0);
         int alpha = MAT_VALUE - 1;
-       Iterator<GCoups> it = pCoups.iterator();
+        Iterator<GCoups> it = pCoups.iterator();
         while (it.hasNext()) {
-            GCoups mvt=it.next();
+            GCoups mvt = it.next();
             UndoGCoups ug = new UndoGCoups();
             gp.exec(mvt, ug);
             final int note = -negascout(gp, depth - 1, MAT_VALUE, -alpha, 0);

@@ -1,5 +1,7 @@
 package position
-import ICodage._
+
+import position.ICodage._
+
 object Roques {
   val roques: Array[Boolean] = new Array[Boolean](4)
   var o_o: Array[Array[Integer]] = Array(Array(ICodage.e1, ICodage.g1, ICodage.h1, ICodage.f1), Array(ICodage.e1, ICodage.c1, ICodage.a1, ICodage.d1, ICodage.b1), Array(ICodage.e8, ICodage.g8, ICodage.h8, ICodage.f8), Array(ICodage.e8, ICodage.c8, ICodage.a8, ICodage.d8, ICodage.b8))

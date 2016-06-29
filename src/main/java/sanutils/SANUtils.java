@@ -3,8 +3,6 @@ package sanutils;
 import position.*;
 import scala.collection.mutable.ListBuffer;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class SANUtils {
@@ -258,7 +256,7 @@ public class SANUtils {
             if (t != ICodage.PION()) {
                 ListBuffer<GCoups> mvts = gPosition.getCoupsValides(gPosition.getTrait());
 
-               // final ArrayList<GCoups> mvts = new ArrayList(coupsValides);
+                // final ArrayList<GCoups> mvts = new ArrayList(coupsValides);
 //                System.out.println(mvts);
                 for (int i = mvts.size() - 1; i >= 0; i--) {
                     final GCoups m = mvts.apply(i);

@@ -1,6 +1,7 @@
 package position
 
 import java.util
+
 import position.ICodage._
 
 object PieceType {

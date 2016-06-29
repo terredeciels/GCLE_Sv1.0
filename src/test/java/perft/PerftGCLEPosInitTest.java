@@ -4,8 +4,6 @@ import org.junit.*;
 import position.*;
 import scala.collection.mutable.ListBuffer;
 
-import java.util.List;
-
 public class PerftGCLEPosInitTest {
 
     private int node_roque;

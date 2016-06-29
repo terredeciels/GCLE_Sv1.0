@@ -3,7 +3,6 @@ package sanutils;
 import org.junit.*;
 import position.ICodage;
 
-
 import static sanutils.SANUtils.getFile;
 import static sanutils.SANUtils.getRank;
 
