@@ -9,15 +9,8 @@ import Array._
 import scala.collection.mutable._
 
 object GPositionS {
-  def abs(x: Int): Int = {
-    if (x < 0) -x
-    else x
-  }
-
-  def typePiece(x: Int): Int = {
-    if (x < 0) -x
-    else x
-  }
+  def abs(x: Int) = if (x < 0) -x else x
+  def typePiece(x: Int) = abs(x)
 }
 
 class GPositionS {
@@ -71,9 +64,7 @@ class GPositionS {
       add(new GCoups(couleur * PION, caseEstOuest, caseEP, 0, 0, 0, EnPassant, 0))
   }
 
-  def add(coups: GCoups) {
-    pseudoCoups += coups
-  }
+  def add(coups: GCoups) = pseudoCoups += coups
 
   def getCoups = {
     pseudoC(this, couleur)
@@ -283,8 +274,8 @@ class GPositionS {
   }
 
   def ajouterCoups(caseO: Int, caseX: Int, type_de_coups: TypeDeCoups) {
-    if (type_de_coups ne Null) pseudoCoups +=
-      new GCoups(etats(caseO), caseO, caseX, 0, 0, etats(caseX), type_de_coups, 0)
+    if (type_de_coups ne Null)
+      pseudoCoups += new GCoups(etats(caseO), caseO, caseX, 0, 0, etats(caseX), type_de_coups, 0)
   }
 
   def pseudoCoups(recherchePionAttaqueRoque: Boolean) {
@@ -352,23 +343,28 @@ class GPositionS {
   }
 
   def coupsValides(t: Int) = {
-    val _trait = side
-    if (t == BLANC) {
-      side = BLANC
-      val generateur = new GPositionS(this, side)
-      coupsvalides = generateur.getCoups
-      estEnEchec = generateur.estEnEchec
-      side = _trait
-      coupsvalides
-    }
-    else {
-      side = NOIR
-      val generateur = new GPositionS(this, side)
-      coupsvalides = generateur.getCoups
-      estEnEchec = generateur.estEnEchec
-      side = _trait
-      coupsvalides
-    }
+   // val _trait = side
+    val generateur = new GPositionS(this, t)
+    coupsvalides = generateur.getCoups
+    estEnEchec = generateur.estEnEchec
+   // side = _trait
+    coupsvalides
+//    if (t == BLANC) {
+//      side = BLANC
+////      val generateur = new GPositionS(this, side)
+////      coupsvalides = generateur.getCoups
+////      estEnEchec = generateur.estEnEchec
+////      side = _trait
+////      coupsvalides
+//    }
+//    else {
+//      side = NOIR
+////      val generateur = new GPositionS(this, side)
+////      coupsvalides = generateur.getCoups
+////      estEnEchec = generateur.estEnEchec
+////      side = _trait
+////      coupsvalides
+//    }
   }
 
   def unexec(ug: UndoGCoups) {

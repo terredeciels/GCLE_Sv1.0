@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GCLE_Sv1.0:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/GCLE_Sv1_0_jar</output-path>
+    <root id="archive" name="GCLE_Sv1.0.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="GCLE_Sv1.0" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/chesspresso/chesspresso/0.9.2/chesspresso-0.9.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fluxchess/jcpi/1.4.0/jcpi-1.4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/pgn2fen/1.0/pgn2fen-1.0.jar" path-in-jar="/" />
+      <element id="library" level="application" name="scala-sdk-2.11.8" />
+      <element id="library" level="project" name="Maven: org:pgn2fen:1.0" />
+      <element id="library" level="project" name="Maven: org.chesspresso:chesspresso:0.9.2" />
+      <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.4" />
+      <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.2" />
+      <element id="library" level="project" name="Maven: com.fluxchess:jcpi:1.4.0" />
+    </root>
+  </artifact>
+</component>
