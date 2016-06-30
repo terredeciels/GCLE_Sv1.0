@@ -13,23 +13,23 @@ object PieceType {
 
   def getValue(type_de_piece: Int) = _PIECE_TYPE(type_de_piece).value
 
-  def _PIECE_TYPE(type_de_piece: Int) = {
-    type_de_piece match {
-      case FOU =>
-        fou
-      case ROI =>
-        roi
-      case CAVALIER =>
-        cavalier
-      case PION =>
-        pion
-      case DAME =>
-        dame
-      case TOUR =>
-        tour
-      case _ =>
-        null
-    }
+
+
+  def _PIECE_TYPE(type_de_piece: Int) = type_de_piece match {
+    case FOU =>
+      fou
+    case ROI =>
+      roi
+    case CAVALIER =>
+      cavalier
+    case PION =>
+      pion
+    case DAME =>
+      dame
+    case TOUR =>
+      tour
+    case _ =>
+      null
   }
 
 }
