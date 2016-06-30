@@ -39,6 +39,7 @@ class GPositionS {
     recherchePionAttaqueRoque_$eq(recherchePionAttaqueRoque)
   }
 
+  def pieceAdverse(caseX: Int) = etats(caseX) != OUT && etats(caseX) * couleur < 0
   def e(p: GPositionS, co: Int, cx: Int) {
     p.etats(co) = p.etats(cx)
   }
@@ -269,7 +270,7 @@ class GPositionS {
       pseudoCoups += new GCoups(etats(caseO), caseO, caseX, 0, 0, etats(caseX), type_de_coups, 0)
   }
 
-  def pseudoCoups(recherchePionAttaqueRoque: Boolean) {
+  def pseudoCoups(recherchePionAttaqueRoque: Boolean): Unit = {
     val NordSudSelonCouleur = if (couleur == BLANC) nord else sud
     var caseX = caseO + NordSudSelonCouleur
     if (etats(caseX) == VIDE) {
@@ -292,7 +293,8 @@ class GPositionS {
 
   def diagonalePionAttaqueRoque(caseO: Int, NordSudSelonCouleur: Int, estOuOuest: Int) {
     val caseX = caseO + NordSudSelonCouleur + estOuOuest
-    if (etats(caseX) != OUT) add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats(caseX), Attaque, 0))
+    if (etats(caseX) != OUT)
+      add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats(caseX), Attaque, 0))
   }
 
   def diagonalePionPrise(caseO: Int, NordSudSelonCouleur: Int, estOuOuest: Int) {
@@ -303,13 +305,10 @@ class GPositionS {
     }
   }
 
-  def pieceAdverse(caseX: Int) = etats(caseX) != OUT && etats(caseX) * couleur < 0
 
   def addPseudoCoupsPromotion(caseO: Int, caseX: Int, pieceprise: Int) {
-    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, Promotion, couleur * FOU))
-    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, Promotion, couleur * CAVALIER))
-    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, Promotion, couleur * DAME))
-    add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, Promotion, couleur * TOUR))
+    List(FOU,CAVALIER,DAME,TOUR).foreach(ppromo =>
+      add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, Promotion, couleur * ppromo)))
   }
 
   def fAttaque(caseRoi: Int, F1ouF8: Int, G1ouG8: Int, coups: ListBuffer[GCoups]): Boolean = {
