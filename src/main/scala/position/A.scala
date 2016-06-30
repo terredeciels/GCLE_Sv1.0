@@ -57,7 +57,7 @@ class A {
       add(new GCoups(couleur * PION, caseO, caseX, 0, 0, pieceprise, Promotion, couleur * ppromo)))
   }
 
-  def add(coups: GCoups) = moves += coups
+  def add(coups: GCoups): Unit = moves += coups
 
   def pieceQuiALeTrait(caseO: Int) = {
     val couleurPiece = if (etats(caseO) < 0) BLANC else NOIR

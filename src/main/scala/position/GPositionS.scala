@@ -8,7 +8,7 @@ import position.TypeDeCoups._
 import scala.Array._
 import scala.collection.mutable._
 
-class GPositionS extends A {
+class GPositionS extends A with TGPositionS{
   val roques = Roques.roques
   val R = new Roques
   var caseEP = 0
@@ -49,7 +49,7 @@ class GPositionS extends A {
   }
 
 
-  def getCoups = {
+  def getCoups() = {
     pseudoC(this, couleur)
     ajouterRoques()
     ajouterCoupsEP()
@@ -57,7 +57,7 @@ class GPositionS extends A {
     moves
   }
 
-  def coupsEnEchec = {
+  def coupsEnEchec() = {
     val aRetirer = new ListBuffer[GCoups]
     var caseRoiCouleur = 0
     for (coups <- moves) {

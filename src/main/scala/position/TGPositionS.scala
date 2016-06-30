@@ -8,9 +8,9 @@ trait TGPositionS {
 
   def pionEstOuest(caseEP: Int, estouest: Int): Unit
 
-  def getCoups(moves: ListBuffer[GCoups]): ListBuffer[GCoups]
+  def getCoups(): ListBuffer[GCoups]
 
-  def coupsEnEchec(moves: ListBuffer[GCoups]): ListBuffer[GCoups]
+  def coupsEnEchec(): ListBuffer[GCoups]
 
   def fPositionSimul(m: GCoups, couleur: Int): GPositionS
 
@@ -21,18 +21,18 @@ trait TGPositionS {
   def rangFinal(caseX: Int): Boolean
 
   def rangInitial(caseX: Int): Boolean
-
   def fRangInitial: (Int) => Boolean.type = (caseX: Int) => Boolean
 
   def fCaseRoi(p: GPositionS, couleur: Int): Int
 
-  def ajouterRoques(): ListBuffer[GCoups]
+  def ajouterRoques(): Unit
 
-  def select(t: Int): ListBuffer[GCoups]
+  def select(t: Int): Unit
+  //def select: (Int) => Unit.type = (t: Int)=> Unit
 
   def pseudoC(gp: GPositionS, pCouleur: Int): ListBuffer[GCoups]
 
-  def pseudoCoups(etat: PieceType): ListBuffer[GCoups]
+  def pseudoCoups(etat: PieceType): Unit
 
   def pseudoCoups(recherchePionAttaqueRoque: Boolean): Unit
 
