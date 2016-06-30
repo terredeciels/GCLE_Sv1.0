@@ -1,19 +1,13 @@
 package position
 
-import position.GPositionS._
 import position.ICodage._
 import position.PieceType._
 import position.Roques._
 import position.TypeDeCoups._
+import Seq.range
 
 import scala.Array._
 import scala.collection.mutable._
-
-object GPositionS {
-  def abs(x: Int) = if (x < 0) -x else x
-
-  def typePiece(x: Int) = abs(x)
-}
 
 class GPositionS {
   val roques = Roques.roques
@@ -178,23 +172,32 @@ class GPositionS {
   }
 
   def pionDeCouleur(s: Int, couleur: Int) = {
-    val typeDePiece = if (etats(s) < 0) -etats(s) else etats(s)
-    val couleurPiece = if (etats(s) < 0) BLANC else NOIR
-    typeDePiece == PION && couleurPiece == couleur
+    typeDePiece(s) == PION && couleurPiece(s) == couleur
   }
+  def abs(x: Int) = if (x < 0) -x else x
+
+  def typePiece(x: Int) = abs(x)
+
+  def typeDePiece(s: Int) = if (etats(s) < 0) -etats(s) else etats(s)
+
+  def couleurPiece(s: Int) = if (etats(s) < 0) BLANC else NOIR
 
   def rangFinal(caseX: Int) = {
+//   if (range(a1,h1).contains(caseX) && couleur==NOIR) true else
+//     range(a8,h8).contains(caseX) && couleur==BLANC
     if (caseX >= a1 && caseX <= h1 && couleur == NOIR) true
     else caseX >= a8 && caseX <= h8 && couleur == BLANC
   }
 
   def rangInitial(caseX: Int) = {
+//    if (range(98,105).contains(caseX) && couleur==NOIR) true else
+//      range(38,45).contains(caseX) && couleur==BLANC
     if (caseX >= 98 && caseX <= 105 && couleur == NOIR) true
     else caseX >= 38 && caseX <= 45 && couleur == BLANC
   }
 
 
-  def fCaseRoi(p: GPositionS, couleur: Int): Int
+  def fCaseRoi(p: GPositionS, couleur: Int)
   = CASES117.find(caseO => p.etats(caseO) == couleur * ROI).get
 
 
@@ -222,8 +225,7 @@ class GPositionS {
 
     CASES117.foreach { case s =>
       if (pieceQuiALeTrait(s)) {
-       // val etat = _PIECE_TYPE(if (etats(s) < 0) -etats(s) else etats(s))
-        val etat = _PIECE_TYPE(typePiece(etats(s)))
+        val etat = _PIECE_TYPE(etats(s))
         caseO = s
         pseudoCoups(etat)
       }

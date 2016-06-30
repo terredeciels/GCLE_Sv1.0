@@ -17,10 +17,7 @@ object FenToGPosition {
 
     CASES64.foreach(caseO => cp_etats(caseO) = position.getStone(caseO))
     range(0, NB_CELLULES).foreach(caseO => etats(caseO) = OUT)
-
-    for (index <- cp_etats.indices) {
-      etats(CASES117(index)) = cp_etats(index)
-    }
+    CASES64.foreach(index => etats(CASES117(index)) = cp_etats(index))
 
     gp.etats = etats
     gp.side = if (position.getToPlay == Chess.WHITE) BLANC else NOIR
@@ -29,8 +26,7 @@ object FenToGPosition {
     gp.roques(1) = (1 & cp_roques) == 1
     gp.roques(2) = (8 & cp_roques) == 8
     gp.roques(3) = (4 & cp_roques) == 4
-    gp.caseEP = if (position.getSqiEP == PAS_DE_CASE) -1
-    else CASES117(position.getSqiEP)
+    gp.caseEP = if (position.getSqiEP == PAS_DE_CASE) -1 else CASES117(position.getSqiEP)
     gp
   }
 
