@@ -225,7 +225,7 @@ class GPositionS {
 
     CASES117.foreach { case s =>
       if (pieceQuiALeTrait(s)) {
-        val etat = _PIECE_TYPE(etats(s))
+        val etat = pieceType(etats(s))
         caseO = s
         pseudoCoups(etat)
       }
