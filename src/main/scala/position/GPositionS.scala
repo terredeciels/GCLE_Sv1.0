@@ -11,13 +11,9 @@ import scala.collection.mutable._
 class GPositionS extends A {
   val roques = Roques.roques
   val R = new Roques
-
   var caseEP = 0
-
-
   var gp: GPositionS = _
   var side = 0
-
   var coupsvalides: ListBuffer[GCoups] = _
   var estEnEchec = false
   var caseO = 0
@@ -302,7 +298,6 @@ class GPositionS extends A {
     caseEP_$eq(ug.caseEP)
     side = -side
   }
-
 
 
   def print: String = {
