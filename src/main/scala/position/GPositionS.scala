@@ -9,7 +9,7 @@ import Seq.range
 import scala.Array._
 import scala.collection.mutable._
 
-class GPositionS {
+class GPositionS extends A{
   val roques = Roques.roques
   val R = new Roques
   var etats = new Array[Int](NB_CELLULES)
@@ -38,8 +38,11 @@ class GPositionS {
     this()
     recherchePionAttaqueRoque_$eq(recherchePionAttaqueRoque)
   }
+  def getFullmoveNumber = _fullmoveNumber
 
+  def getHalfmoveCount = _halfmoveCount
   def pieceAdverse(caseX: Int) = etats(caseX) != OUT && etats(caseX) * couleur < 0
+
   def e(p: GPositionS, co: Int, cx: Int) {
     p.etats(co) = p.etats(cx)
   }
@@ -312,11 +315,11 @@ class GPositionS {
   }
 
   def fAttaque(caseRoi: Int, F1ouF8: Int, G1ouG8: Int, coups: ListBuffer[GCoups]): Boolean = {
-    for (coup <- coups) {
-      val caseX = coup.caseX
-      if (caseX == caseRoi || caseX == F1ouF8 || caseX == G1ouG8) return true
-    }
-    false
+    coups.foreach( coup => {
+          if (coup.caseX== caseRoi || coup.caseX== F1ouF8 || coup.caseX == G1ouG8) return true
+        }
+        )
+   false
   }
 
   def coupsValides() = {
@@ -325,36 +328,16 @@ class GPositionS {
     estEnEchec = generateur.estEnEchec
     coupsvalides
   }
-
+  def coupsValides(t: Int) = {
+    val generateur = new GPositionS(this, t)
+    coupsvalides = generateur.getCoups
+    estEnEchec = generateur.estEnEchec
+    coupsvalides
+  }
 
   def isInCheck(pCouleur: Int) = {
     coupsValides(pCouleur)
     estEnEchec
-  }
-
-  def coupsValides(t: Int) = {
-    // val _trait = side
-    val generateur = new GPositionS(this, t)
-    coupsvalides = generateur.getCoups
-    estEnEchec = generateur.estEnEchec
-    // side = _trait
-    coupsvalides
-    //    if (t == BLANC) {
-    //      side = BLANC
-    ////      val generateur = new GPositionS(this, side)
-    ////      coupsvalides = generateur.getCoups
-    ////      estEnEchec = generateur.estEnEchec
-    ////      side = _trait
-    ////      coupsvalides
-    //    }
-    //    else {
-    //      side = NOIR
-    ////      val generateur = new GPositionS(this, side)
-    ////      coupsvalides = generateur.getCoups
-    ////      estEnEchec = generateur.estEnEchec
-    ////      side = _trait
-    ////      coupsvalides
-    //    }
   }
 
   def unexec(ug: UndoGCoups) {
@@ -364,9 +347,7 @@ class GPositionS {
     side = -side
   }
 
-  def getFullmoveNumber = _fullmoveNumber
 
-  def getHalfmoveCount = _halfmoveCount
 
   def print: String = {
     var str: String = ""

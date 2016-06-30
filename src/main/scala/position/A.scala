@@ -1,0 +1,6 @@
+package position
+
+
+class A {
+
+}
