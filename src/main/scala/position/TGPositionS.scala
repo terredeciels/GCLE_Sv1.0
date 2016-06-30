@@ -23,7 +23,9 @@ trait TGPositionS {
   def rangInitial(caseX: Int): Boolean
   def fRangInitial: (Int) => Boolean.type = (caseX: Int) => Boolean
 
-  def fCaseRoi(p: GPositionS, couleur: Int): Int
+  def pCaseRoi(p: GPositionS, couleur: Int): Int
+  //def fCaseRoi: (GPositionS, Int) => Int.type = (p: GPositionS, couleur: Int) => Int
+ // def fCaseRoi: (GPositionS, Int) => Int.type
 
   def ajouterRoques(): Unit
 

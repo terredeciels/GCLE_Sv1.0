@@ -62,7 +62,7 @@ class GPositionS extends A with TGPositionS{
     var caseRoiCouleur = 0
     for (coups <- moves) {
       val positionSimul = fPositionSimul(coups, couleur)
-      caseRoiCouleur = fCaseRoi(positionSimul, couleur)
+      caseRoiCouleur = pCaseRoi(positionSimul, couleur)
       val pseudoCoupsPosSimul = new GPositionS(true).pseudoC(positionSimul, -couleur)
       estEnEchec_$eq(fAttaque(caseRoiCouleur, -1, -1, pseudoCoupsPosSimul))
       if (estEnEchec) aRetirer += coups
@@ -165,7 +165,7 @@ class GPositionS extends A with TGPositionS{
   }
 
 
-  def fCaseRoi(p: GPositionS, couleur: Int)
+  def pCaseRoi(p: GPositionS, couleur: Int)
   = CASES117.find(caseO => p.etats(caseO) == couleur * ROI).get
 
 
@@ -275,14 +275,14 @@ class GPositionS extends A with TGPositionS{
 
   def coupsValides() = {
     val generateur = new GPositionS(this, side)
-    coupsvalides = generateur.getCoups
+    coupsvalides = generateur.getCoups()
     estEnEchec = generateur.estEnEchec
     coupsvalides
   }
 
   def coupsValides(t: Int) = {
     val generateur = new GPositionS(this, t)
-    coupsvalides = generateur.getCoups
+    coupsvalides = generateur.getCoups()
     estEnEchec = generateur.estEnEchec
     coupsvalides
   }

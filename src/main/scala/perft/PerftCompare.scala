@@ -90,7 +90,7 @@ object Perft {
 
   def divide(gp: GPositionS, depth: Int): mutable.HashMap[String, Long] = {
     val result: mutable.HashMap[String, Long] = new mutable.HashMap[String, Long]
-    val moves: ListBuffer[GCoups] = gp.getCoups
+    val moves: ListBuffer[GCoups] = gp.coupsValides()
     var i: Int = 0
     while (i < moves.size) {
       {
