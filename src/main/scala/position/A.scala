@@ -35,9 +35,7 @@ class A {
   }
 
 
-  def pionDeCouleur(s: Int, couleur: Int) = {
-    typeDePiece(s) == PION && couleurPiece(s) == couleur
-  }
+  def pionDeCouleur(s: Int, couleur: Int) = typeDePiece(s) == PION && couleurPiece(s) == couleur
 
   def typeDePiece(s: Int) = if (etats(s) < 0) -etats(s) else etats(s)
 

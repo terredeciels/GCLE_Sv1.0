@@ -6,9 +6,10 @@ import position.Roques._
 import position.TypeDeCoups._
 
 import scala.Array._
+import scala.Seq
 import scala.collection.mutable._
 
-class GPositionS extends A with TGPositionS{
+class GPositionS extends A  with TGPositionS {
   val roques = Roques.roques
   val R = new Roques
   var caseEP = 0
@@ -34,7 +35,7 @@ class GPositionS extends A with TGPositionS{
   }
 
 
-  def ajouterCoupsEP() {
+  def ajouterCoupsEP(): Unit ={
     val caseEP = gp.caseEP
     if (caseEP != PAS_DE_CASE) {
       pionEstOuest(caseEP, est)
@@ -42,30 +43,23 @@ class GPositionS extends A with TGPositionS{
     }
   }
 
-  def pionEstOuest(caseEP: Int, estouest: Int) {
+  def pionEstOuest(caseEP: Int, estouest: Int): Unit ={
     val caseEstOuest = caseEP + couleur * nord + estouest
     if (pionDeCouleur(caseEstOuest, couleur))
       add(new GCoups(couleur * PION, caseEstOuest, caseEP, 0, 0, 0, EnPassant, 0))
   }
 
 
-  def getCoups() = {
-    pseudoC(this, couleur)
-    ajouterRoques()
-    ajouterCoupsEP()
-    moves --= coupsEnEchec
-    moves
-  }
-
-  def coupsEnEchec() = {
+  def coupsEnEchec(): ListBuffer[GCoups] = {
     val aRetirer = new ListBuffer[GCoups]
-    var caseRoiCouleur = 0
-    for (coups <- moves) {
-      val positionSimul = fPositionSimul(coups, couleur)
-      caseRoiCouleur = pCaseRoi(positionSimul, couleur)
-      val pseudoCoupsPosSimul = new GPositionS(true).pseudoC(positionSimul, -couleur)
-      estEnEchec_$eq(fAttaque(caseRoiCouleur, -1, -1, pseudoCoupsPosSimul))
-      if (estEnEchec) aRetirer += coups
+   // var caseRoiCouleur = 0
+    moves.foreach { (coups: GCoups) => {
+          val positionSimul = fPositionSimul(coups, couleur)
+         val caseRoiCouleur = pCaseRoi(positionSimul, couleur)
+          val pseudoCoupsPosSimul = new GPositionS(true).pseudoC(positionSimul, -couleur)
+          estEnEchec_$eq(fAttaque(caseRoiCouleur, -1, -1, pseudoCoupsPosSimul))
+          if (estEnEchec) aRetirer += coups
+        }
     }
     aRetirer
   }
@@ -81,9 +75,7 @@ class GPositionS extends A with TGPositionS{
       case Deplacement | Prise | EnPassant =>
         e(p, X, O)
         e(p, O)
-        if (t eq EnPassant) {
-          e(p, X + nord * couleur)
-        }
+        if (t eq EnPassant) e(p, X + nord * couleur)
       case Promotion =>
         p.etats(X) = piecePromotion
         e(p, O)
@@ -273,16 +265,24 @@ class GPositionS extends A with TGPositionS{
     false
   }
 
+  def allMoves() = {
+    pseudoC(this, couleur)
+    ajouterRoques()
+    ajouterCoupsEP()
+    moves --= coupsEnEchec
+    moves
+  }
+
   def coupsValides() = {
     val generateur = new GPositionS(this, side)
-    coupsvalides = generateur.getCoups()
+    coupsvalides = generateur.allMoves()
     estEnEchec = generateur.estEnEchec
     coupsvalides
   }
 
   def coupsValides(t: Int) = {
     val generateur = new GPositionS(this, t)
-    coupsvalides = generateur.getCoups()
+    coupsvalides = generateur.allMoves()
     estEnEchec = generateur.estEnEchec
     coupsvalides
   }

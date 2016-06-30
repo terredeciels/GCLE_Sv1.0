@@ -8,7 +8,7 @@ trait TGPositionS {
 
   def pionEstOuest(caseEP: Int, estouest: Int): Unit
 
-  def getCoups(): ListBuffer[GCoups]
+  def allMoves(): ListBuffer[GCoups]
 
   def coupsEnEchec(): ListBuffer[GCoups]
 
