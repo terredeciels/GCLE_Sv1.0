@@ -5,7 +5,7 @@ import com.fluxchess.jcpi.commands.*;
 
 /**
  * @author Gilles
- * TODO JCPI à implémenter, ou winboard to uci
+ *         TODO JCPI à implémenter, ou winboard to uci
  */
 public class UCIAdapter extends AbstractEngine {
 

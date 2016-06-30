@@ -1,7 +1,7 @@
 package position
 
 class UndoGCoups {
-  var etats= new Array[Int](ICodage.NB_CELLULES)
+  var etats = new Array[Int](ICodage.NB_CELLULES)
   var roques = new Array[Boolean](4)
   var caseEP: Int = _
 

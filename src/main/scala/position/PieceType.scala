@@ -12,24 +12,26 @@ object PieceType {
   val tour = new PieceType(TOUR, "R", 550, DIR_TOUR, 1)
 
   def getValue(type_de_piece: Int) = pieceType(type_de_piece).value
-  def abs(x: Int) = if (x < 0) -x else x
+
   def pieceType(type_de_piece: Int) =
-     abs(type_de_piece) match {
-    case FOU =>
-      fou
-    case ROI =>
-      roi
-    case CAVALIER =>
-      cavalier
-    case PION =>
-      pion
-    case DAME =>
-      dame
-    case TOUR =>
-      tour
-    case _ =>
-      null
-  }
+    abs(type_de_piece) match {
+      case FOU =>
+        fou
+      case ROI =>
+        roi
+      case CAVALIER =>
+        cavalier
+      case PION =>
+        pion
+      case DAME =>
+        dame
+      case TOUR =>
+        tour
+      case _ =>
+        null
+    }
+
+  def abs(x: Int) = if (x < 0) -x else x
 
 }
 

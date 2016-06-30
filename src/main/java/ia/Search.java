@@ -2,7 +2,6 @@ package ia;
 
 import ia.eval.EvalFunctionMaterial;
 import ia.tree.AlphaBetaEngineJChecs;
-import ia.tree.RandomEngine;
 import position.FenToGPosition;
 import position.GCoups;
 import position.GPositionS;
@@ -21,18 +20,18 @@ public class Search {
         this.gPosition = gPosition;
         depth = 4;
         f_eval = new EvalFunctionMaterial();
-         ia = new AlphaBetaEngineJChecs(gPosition, f_eval, depth);
+        ia = new AlphaBetaEngineJChecs(gPosition, f_eval, depth);
         // ia = new NegaScoutEngine(gPosition, f_eval, depth);
-       // ia = new RandomEngine(gPosition);
+        // ia = new RandomEngine(gPosition);
     }
 
     public Search(String f) {
         gPosition = FenToGPosition.toGPosition(f);
         depth = 4;
         f_eval = new EvalFunctionMaterial();
-         ia = new AlphaBetaEngineJChecs(gPosition, f_eval, depth);
+        ia = new AlphaBetaEngineJChecs(gPosition, f_eval, depth);
         //  ia = new NegaScoutEngine(gPosition, f_eval, depth);
-       // ia = new RandomEngine(gPosition);
+        // ia = new RandomEngine(gPosition);
     }
 
     public final GCoups getBestMove() {
