@@ -32,8 +32,9 @@ public class FenToGPositionTest {
 
         int rg = 0;
         for (int c = 0; c < 64; c++) {
-            int e = FenToGPosition.cp_etats()[c];
-            System.out.print(e + ";");
+            // pour debug
+    //        int e = FenToGPosition.cp_etats()[c];
+          //  System.out.print(e + ";");
             rg++;
             if (rg == 8) {
                 System.out.println();

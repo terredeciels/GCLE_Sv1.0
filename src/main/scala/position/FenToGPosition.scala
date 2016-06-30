@@ -1,38 +1,27 @@
 package position
 
-import org.apache.commons.collections.iterators.ArrayIterator
 import org.chesspresso.Chess
 import org.chesspresso.position.Position
 import position.ICodage._
 
+import scala.Seq.range
+
 object FenToGPosition {
-  var cp_etats: Array[Int] = _
-  def toGPosition(fen: String):GPositionS = toGPosition(new Position(fen))
+
+  def toGPosition(fen: String): GPositionS = toGPosition(new Position(fen))
 
   private def toGPosition(position: Position) = {
     val gp = new GPositionS()
-    cp_etats = new Array[Int](NB_CASES)
-    for (caseO <- CASES64) {
-      cp_etats(caseO) = position.getStone(caseO)
-    }
+    val cp_etats = new Array[Int](NB_CASES)
     val etats = new Array[Int](NB_CELLULES)
-    var caseO = 0
-    while (caseO < NB_CELLULES) {
 
-        etats(caseO) = OUT
+    CASES64.foreach(caseO => cp_etats(caseO) = position.getStone(caseO))
+    range(0, NB_CELLULES).foreach(caseO => etats(caseO) = OUT)
 
-
-        caseO += 1
-       // caseO - 1
-
+    for (index <- cp_etats.indices) {
+      etats(CASES117(index)) = cp_etats(index)
     }
-    val itetats = new ArrayIterator(cp_etats)
-    var indice = 0
-    while (itetats.hasNext) {
-     // val e = itetats.next
-      etats(CASES117(indice)) = itetats.next.asInstanceOf[Integer]
-      indice += 1
-    }
+
     gp.etats = etats
     gp.side = if (position.getToPlay == Chess.WHITE) BLANC else NOIR
     val cp_roques = position.getCastles
