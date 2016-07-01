@@ -163,7 +163,7 @@ class Generateur extends A with TGPositionS {
   = CASES117.find(caseO => p.etats(caseO) == couleur * ROI).get
 
 
-  def ajouterRoques(): Unit ={
+  def ajouterRoques(): Unit = {
     coupsAttaqueRoque = new Generateur(true).pseudoC(gp, -couleur)
     itRoque.foreach(t => {
       val e = gp.etats

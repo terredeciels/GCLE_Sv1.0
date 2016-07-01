@@ -5,6 +5,7 @@ import position.TypeDeCoups._
 
 import scala.collection.mutable.ListBuffer
 
+
 class A {
   var couleur = 0
   var etats = new Array[Int](NB_CELLULES)

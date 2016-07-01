@@ -1,15 +1,31 @@
 package position
+
 import scala.collection.mutable.ListBuffer
 
-class GPosition extends  EGen  {
+class GPosition extends EGen {
 
-  override def coupsValides(gp: GPosition, side: Int): ListBuffer[GCoups] = {
-   // val moves: ListBuffer[GCoups] = new ListBuffer[GCoups]
-    val gen = new Gen()
-    moves = gen.allMoves(gp, side)
-    estEnEchec = gen.estEnEchec
-    moves
+  def coupsValides(side: Int): ListBuffer[GCoups] = {
+    var gen = new Gen
+    val allmoves = gen.regularMoves(rechPionAttacRoq = false, etats, side, couleur)
+    gen = new Gen()
+    val coupsAttaqueRoque = gen.castlesMoves(rechPionAttacRoq = true, etats, -couleur)
+    allmoves --= coupsAttaqueRoque
+
+    val g = new Gen
+    allmoves.foreach { (coups: GCoups) => {
+      val pos: Array[Int] = g.fPositionSimul(etats, coups, couleur)
+      val caseRoi = g.pCaseRoi(pos, couleur)
+      gen = new Gen()
+      val coupsPos = gen.regularMoves(true, pos, side, -couleur)
+
+      if (gen.fAttaque(caseRoi, -1, -1, coupsPos)) {
+        allmoves -= coups
+        estEnEchec = true
+      }
+    }
+
+      allmoves
+    }
+
+
   }
-
-
-}
