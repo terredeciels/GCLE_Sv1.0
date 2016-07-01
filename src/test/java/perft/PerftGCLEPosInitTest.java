@@ -35,7 +35,7 @@ public class PerftGCLEPosInitTest {
         //voir http://chessprogramming.wikispaces.com/Perft+Results
         String f = ICodage.FEN_INITIALE();
 
-        Generateur gp = FenToGPosition.toGPosition(f);
+        GPositionS gp = FenToGPosition.toGPosition(f);
         long miniMax = miniMax(gp, 1);
 //        (!coupsvalides.isEmpty())
         System.out.println("depth 1: " + miniMax);// OK
@@ -72,7 +72,7 @@ public class PerftGCLEPosInitTest {
 //        assert (miniMax == 3195901860);
     }
 
-    private long miniMax(Generateur gp, int depth) {
+    private long miniMax(GPositionS gp, int depth) {
         long nodes = 0;
 
         if (depth == 0) {

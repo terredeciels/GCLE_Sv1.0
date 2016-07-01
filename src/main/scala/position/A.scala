@@ -5,7 +5,6 @@ import position.TypeDeCoups._
 
 import scala.collection.mutable.ListBuffer
 
-
 class A {
   var couleur = 0
   var etats = new Array[Int](NB_CELLULES)
@@ -19,11 +18,11 @@ class A {
 
   def pieceAdverse(caseX: Int) = etats(caseX) != OUT && etats(caseX) * couleur < 0
 
-  def e(p: Generateur, co: Int, cx: Int) {
+  def e(p: GPositionS, co: Int, cx: Int) {
     p.etats(co) = p.etats(cx)
   }
 
-  def e(p: Generateur, co: Int) {
+  def e(p: GPositionS, co: Int) {
     p.etats(co) = VIDE
   }
 
@@ -34,7 +33,7 @@ class A {
   def e(co: Int) {
     etats(co) = VIDE
   }
-
+  
   def pionDeCouleur(s: Int, couleur: Int) = typeDePiece(s) == PION && couleurPiece(s) == couleur
 
   def typeDePiece(s: Int) = if (etats(s) < 0) -etats(s) else etats(s)

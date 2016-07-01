@@ -2,12 +2,12 @@ package ia;
 
 import ia.eval.EvalFunctionMaterial;
 import org.junit.*;
-import position.Generateur;
+import position.GPositionS;
 import position.ICodage;
 
 public class EvalFunctionMaterialTest {
 
-    private final Generateur gp;
+    private final GPositionS gp;
 
     public EvalFunctionMaterialTest() {
         String f = "r3k2r/8/8/8/8/8/8/4K3 w kq - 0 1";

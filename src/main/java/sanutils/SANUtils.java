@@ -31,7 +31,7 @@ public class SANUtils {
             DAME = 4,
             PION = 5;
 
-    public static GCoups toMove(final Generateur gPosition, final String pSAN) throws SANException {
+    public static GCoups toMove(final GPositionS gPosition, final String pSAN) throws SANException {
         if (gPosition == null) {
             throw new NullPointerException("Missing game state");
         }
@@ -220,7 +220,7 @@ public class SANUtils {
      * @param pMouvement
      * @return
      */
-    public static String toSAN(Generateur gPosition, final GCoups pMouvement) {
+    public static String toSAN(GPositionS gPosition, final GCoups pMouvement) {
         if (gPosition == null) {
             throw new NullPointerException("Missing game state");
         }

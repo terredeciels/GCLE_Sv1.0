@@ -32,7 +32,7 @@ public class GPositionTest {
 //        GPosition instance = FenToGPosition.toGPosition(fen);
 //        ArrayList<GCoups> result_blanc = instance.getCoupsValides(BLANC);
         String fen = "rnbq1rk1/ppp1bppp/4pn2/3P4/3P1B2/2N2N2/PP2PPPP/R2QKB1R b KQ - 0 6";
-        Generateur instance = FenToGPosition.toGPosition(fen);
+        GPositionS instance = FenToGPosition.toGPosition(fen);
         ListBuffer<GCoups> result = instance.coupsValides(instance.side());//noirs
         System.out.println(result);
 
@@ -42,7 +42,7 @@ public class GPositionTest {
     public void testPrint() {
         System.out.println("print");
         String fen = ICodage.FEN_INITIALE();
-        Generateur instance = FenToGPosition.toGPosition(fen);
+        GPositionS instance = FenToGPosition.toGPosition(fen);
         String result = instance.print();
         int rg = 0;
         for (int c = 0; c < 64; c++) {

@@ -3,7 +3,7 @@ package ia.tree;
 import ia.IEval;
 import ia.IIA;
 import position.GCoups;
-import position.Generateur;
+import position.GPositionS;
 import position.UndoGCoups;
 import scala.collection.Iterator;
 import scala.collection.mutable.ListBuffer;
@@ -12,15 +12,15 @@ public class AlphaBetaEngineJChecs implements IIA {
 
     private final int depth;
     private final IEval f_eval;
-    private final Generateur gp;
+    private final GPositionS gp;
 
-    public AlphaBetaEngineJChecs(Generateur gp, IEval f_eval, int depth) {
+    public AlphaBetaEngineJChecs(GPositionS gp, IEval f_eval, int depth) {
         this.f_eval = f_eval;
         this.gp = gp;
         this.depth = depth;
     }
 
-    private int alphabeta(final Generateur gp, final int pProfondeur, final int pAlpha, final int pBeta) {
+    private int alphabeta(final GPositionS gp, final int pProfondeur, final int pAlpha, final int pBeta) {
 
         final int trait = gp.side();
         if (pProfondeur == 0) {
@@ -63,7 +63,7 @@ public class AlphaBetaEngineJChecs implements IIA {
         return searchMoveFor(gp, gp.coupsValides());
     }
 
-    public GCoups searchMoveFor(final Generateur gp, final ListBuffer<GCoups> pCoups) {
+    public GCoups searchMoveFor(final GPositionS gp, final ListBuffer<GCoups> pCoups) {
 
         final int l = pCoups.size();
 
@@ -85,11 +85,11 @@ public class AlphaBetaEngineJChecs implements IIA {
         return res;
     }
 
-    private int evaluate(Generateur gp, int trait) {
+    private int evaluate(GPositionS gp, int trait) {
         return f_eval.evaluate(gp, trait);
     }
 
-    private ListBuffer<GCoups> getValidMoves(Generateur gp, int trait) {
+    private ListBuffer<GCoups> getValidMoves(GPositionS gp, int trait) {
         return gp.coupsValides(trait);
     }
 

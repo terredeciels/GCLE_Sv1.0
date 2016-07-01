@@ -8,22 +8,19 @@ import position.TypeDeCoups._
 import scala.Array._
 import scala.collection.mutable._
 
-class Generateur extends A with TGPositionS {
+class GPositionS extends A with TGPositionS {
   val roques = Roques.roques
   val R = new Roques
   var caseEP = 0
-
-  var gp: Generateur = _
-
+  var gp: GPositionS = _
   var side = 0
   var coupsvalides: ListBuffer[GCoups] = _
   var estEnEchec = false
-
   var caseO = 0
   var recherchePionAttaqueRoque = false
   var coupsAttaqueRoque: ListBuffer[GCoups] = _
 
-  def this(p: Generateur, pCouleur: Int) {
+  def this(p: GPositionS, pCouleur: Int) {
     this()
     moves = new ListBuffer[GCoups]
     gp = p
@@ -58,7 +55,7 @@ class Generateur extends A with TGPositionS {
     moves.foreach { (coups: GCoups) => {
       val positionSimul = fPositionSimul(coups, couleur)
       val caseRoiCouleur = pCaseRoi(positionSimul, couleur)
-      val pseudoCoupsPosSimul = new Generateur(true).pseudoC(positionSimul, -couleur)
+      val pseudoCoupsPosSimul = new GPositionS(true).pseudoC(positionSimul, -couleur)
       estEnEchec_$eq(fAttaque(caseRoiCouleur, -1, -1, pseudoCoupsPosSimul))
       if (estEnEchec) aRetirer += coups
     }
@@ -67,7 +64,7 @@ class Generateur extends A with TGPositionS {
   }
 
   def fPositionSimul(m: GCoups, couleur: Int) = {
-    val p = new Generateur
+    val p = new GPositionS
     copy(etats, 0, p.etats, 0, NB_CELLULES)
     val O = m.caseO
     val X = m.caseX
@@ -159,12 +156,12 @@ class Generateur extends A with TGPositionS {
   }
 
 
-  def pCaseRoi(p: Generateur, couleur: Int)
+  def pCaseRoi(p: GPositionS, couleur: Int)
   = CASES117.find(caseO => p.etats(caseO) == couleur * ROI).get
 
 
-  def ajouterRoques(): Unit = {
-    coupsAttaqueRoque = new Generateur(true).pseudoC(gp, -couleur)
+  def ajouterRoques(): Unit ={
+    coupsAttaqueRoque = new GPositionS(true).pseudoC(gp, -couleur)
     itRoque.foreach(t => {
       val e = gp.etats
       val _c0 = o_o(t)(0)
@@ -179,7 +176,7 @@ class Generateur extends A with TGPositionS {
 
   }
 
-  def pseudoC(gp: Generateur, pCouleur: Int): ListBuffer[GCoups] = {
+  def pseudoC(gp: GPositionS, pCouleur: Int): ListBuffer[GCoups] = {
     moves = new ListBuffer[GCoups]
     etats = gp.etats
     couleur = pCouleur
@@ -275,15 +272,14 @@ class Generateur extends A with TGPositionS {
   }
 
   def coupsValides() = {
-    val generateur = new Generateur(this, side)
+    val generateur = new GPositionS(this, side)
     coupsvalides = generateur.allMoves()
     estEnEchec = generateur.estEnEchec
     coupsvalides
   }
 
-
   def coupsValides(t: Int) = {
-    val generateur = new Generateur(this, t)
+    val generateur = new GPositionS(this, t)
     coupsvalides = generateur.allMoves()
     estEnEchec = generateur.estEnEchec
     coupsvalides

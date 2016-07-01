@@ -33,7 +33,7 @@ public final class SANUtilsTest2 {
 //            fail(e.toString());
 //        }
         String f = "r4rk1/2p1bppp/p1q2n2/7b/1p6/1BPP1N1P/PP3PP1/R1BQR1K1 w - - 0 16";
-        Generateur gp = FenToGPosition.toGPosition(f);
+        GPositionS gp = FenToGPosition.toGPosition(f);
         try {
 //            GCoups mvt = toMove(etat, "e3");
 //            GCoups jcoups = new GCoups(BLANC * PION, e2, e3, 0, Deplacement);
@@ -60,7 +60,7 @@ public final class SANUtilsTest2 {
     @Test
     public void testToSAN() {
 
-        Generateur gp = FenToGPosition.toGPosition("r1bq1rk1/pppp2pN/2n2n2/4pp2/P7/RP6/2PPPPPP/2BQKB1R b K - 0 7");
+        GPositionS gp = FenToGPosition.toGPosition("r1bq1rk1/pppp2pN/2n2n2/4pp2/P7/RP6/2PPPPPP/2BQKB1R b K - 0 7");
         GCoups mvt = new GCoups(ICodage.NOIR() * ICodage.ROI(), ICodage.g8(), ICodage.h7(), 0, 0, ICodage.BLANC() * ICodage.CAVALIER(), TypeDeCoups.Prise(), 0);
         assertEquals("Kxh7", toSAN(gp, mvt));
 

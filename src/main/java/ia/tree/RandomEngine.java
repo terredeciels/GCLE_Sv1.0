@@ -2,7 +2,7 @@ package ia.tree;
 
 import ia.IIA;
 import position.GCoups;
-import position.Generateur;
+import position.GPositionS;
 import scala.collection.mutable.ListBuffer;
 
 import java.util.Random;
@@ -10,14 +10,14 @@ import java.util.Random;
 public class RandomEngine implements IIA {
 
     static final Random RANDOMIZER = new Random();
-    private final Generateur gp;
+    private final GPositionS gp;
 
-    public RandomEngine(Generateur gp) {
+    public RandomEngine(GPositionS gp) {
         this.gp = gp;
 //        setMoveSorter(new StaticMoveSorter());
     }
 
-    protected GCoups searchMoveFor(final Generateur pEtat, final ListBuffer<GCoups> pCoups) {
+    protected GCoups searchMoveFor(final GPositionS pEtat, final ListBuffer<GCoups> pCoups) {
         final int l = pCoups.size();
         assert (l != 0);
 //        addHalfmove(l);

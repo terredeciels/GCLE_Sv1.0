@@ -26,9 +26,9 @@ trait TGPositionS {
 
   def coupsEnEchec(): ListBuffer[GCoups]
 
-  def pseudoC(gp: Generateur, pCouleur: Int): ListBuffer[GCoups]
+  def pseudoC(gp: GPositionS, pCouleur: Int): ListBuffer[GCoups]
 
-  def coupsValides(): ListBuffer[GCoups
+  def coupsValides(): ListBuffer[GCoups]
 
   def coupsValides(t: Int): ListBuffer[GCoups]
 
@@ -42,9 +42,9 @@ trait TGPositionS {
 
   def isInCheck(pCouleur: Int): Boolean
 
-  def fPositionSimul(m: GCoups, couleur: Int): Generateur
+  def fPositionSimul(m: GCoups, couleur: Int): GPositionS
 
-  def pCaseRoi(p: Generateur, couleur: Int): Int
+  def pCaseRoi(p: GPositionS, couleur: Int): Int
 
   def print: String
 
