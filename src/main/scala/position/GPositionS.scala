@@ -6,10 +6,9 @@ import position.Roques._
 import position.TypeDeCoups._
 
 import scala.Array._
-import scala.Seq
 import scala.collection.mutable._
 
-class GPositionS extends A  with TGPositionS {
+class GPositionS extends A with TGPositionS {
   val roques = Roques.roques
   val R = new Roques
   var caseEP = 0
@@ -35,7 +34,7 @@ class GPositionS extends A  with TGPositionS {
   }
 
 
-  def ajouterCoupsEP(): Unit ={
+  def ajouterCoupsEP(): Unit = {
     val caseEP = gp.caseEP
     if (caseEP != PAS_DE_CASE) {
       pionEstOuest(caseEP, est)
@@ -43,7 +42,7 @@ class GPositionS extends A  with TGPositionS {
     }
   }
 
-  def pionEstOuest(caseEP: Int, estouest: Int): Unit ={
+  def pionEstOuest(caseEP: Int, estouest: Int): Unit = {
     val caseEstOuest = caseEP + couleur * nord + estouest
     if (pionDeCouleur(caseEstOuest, couleur))
       add(new GCoups(couleur * PION, caseEstOuest, caseEP, 0, 0, 0, EnPassant, 0))
@@ -52,14 +51,14 @@ class GPositionS extends A  with TGPositionS {
 
   def coupsEnEchec(): ListBuffer[GCoups] = {
     val aRetirer = new ListBuffer[GCoups]
-   // var caseRoiCouleur = 0
+    // var caseRoiCouleur = 0
     moves.foreach { (coups: GCoups) => {
-          val positionSimul = fPositionSimul(coups, couleur)
-         val caseRoiCouleur = pCaseRoi(positionSimul, couleur)
-          val pseudoCoupsPosSimul = new GPositionS(true).pseudoC(positionSimul, -couleur)
-          estEnEchec_$eq(fAttaque(caseRoiCouleur, -1, -1, pseudoCoupsPosSimul))
-          if (estEnEchec) aRetirer += coups
-        }
+      val positionSimul = fPositionSimul(coups, couleur)
+      val caseRoiCouleur = pCaseRoi(positionSimul, couleur)
+      val pseudoCoupsPosSimul = new GPositionS(true).pseudoC(positionSimul, -couleur)
+      estEnEchec_$eq(fAttaque(caseRoiCouleur, -1, -1, pseudoCoupsPosSimul))
+      if (estEnEchec) aRetirer += coups
+    }
     }
     aRetirer
   }
@@ -163,22 +162,21 @@ class GPositionS extends A  with TGPositionS {
 
   def ajouterRoques() {
     coupsAttaqueRoque = new GPositionS(true).pseudoC(gp, -couleur)
-    itRoque.foreach(typeRoque => select(typeRoque))
+    itRoque.foreach(t => {
+      val e = gp.etats
+      val _c0 = o_o(t)(0)
+      val _c1 = o_o(t)(1)
+      val _c2 = o_o(t)(2)
+      val _c3 = o_o(t)(3)
+      val e_c4 = if (t == 1 || t == 3) e(o_o(t)(4)) else VIDE
+      if (gp.roques(t))
+        if (e(_c0) == couleur * ROI && e(_c2) == couleur * TOUR && e(_c3) == VIDE && e(_c1) == VIDE && e_c4 == VIDE && !fAttaque(_c0, _c3, _c1, coupsAttaqueRoque))
+          moves += new GCoups(ROI, _c0, _c1, _c2, _c3, 0, Roque, 0)
+    })
+
   }
 
-  def select(t: Int) = {
-    val e = gp.etats
-    val _c0 = o_o(t)(0)
-    val _c1 = o_o(t)(1)
-    val _c2 = o_o(t)(2)
-    val _c3 = o_o(t)(3)
-    val e_c4 = if (t == 1 || t == 3) e(o_o(t)(4)) else VIDE
-    if (gp.roques(t))
-      if (e(_c0) == couleur * ROI && e(_c2) == couleur * TOUR && e(_c3) == VIDE && e(_c1) == VIDE && e_c4 == VIDE && !fAttaque(_c0, _c3, _c1, coupsAttaqueRoque))
-        add(new GCoups(ROI, _c0, _c1, _c2, _c3, 0, Roque, 0))
-  }
-
-  def pseudoC(gp: GPositionS, pCouleur: Int) = {
+  def pseudoC(gp: GPositionS, pCouleur: Int): ListBuffer[GCoups] = {
     moves = new ListBuffer[GCoups]
     etats = gp.etats
     couleur = pCouleur
@@ -265,7 +263,7 @@ class GPositionS extends A  with TGPositionS {
     false
   }
 
-  def allMoves() = {
+  def allMoves(): ListBuffer[GCoups] = {
     pseudoC(this, couleur)
     ajouterRoques()
     ajouterCoupsEP()

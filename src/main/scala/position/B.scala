@@ -2,8 +2,8 @@ package position
 
 import scala.collection.mutable.ListBuffer
 
-trait TGPositionS {
-
+trait B {
+  // Unit
   def ajouterCoupsEP(): Unit
 
   def pionEstOuest(caseEP: Int, estouest: Int): Unit
@@ -11,6 +11,8 @@ trait TGPositionS {
   def valideDroitRoque(gcoups: GCoups): Unit
 
   def ajouterRoques(): Unit
+
+  def select(t: Int): Unit
 
   def pseudoCoups(etat: PieceType): Unit
 
@@ -22,6 +24,7 @@ trait TGPositionS {
 
   def unexec(ug: UndoGCoups): Unit
 
+  //ListBuffer
   def allMoves(): ListBuffer[GCoups]
 
   def coupsEnEchec(): ListBuffer[GCoups]
@@ -32,6 +35,7 @@ trait TGPositionS {
 
   def coupsValides(t: Int): ListBuffer[GCoups]
 
+  //Boolean
   def fAttaque(caseRoi: Int, F1ouF8: Int, G1ouG8: Int, coups: ListBuffer[GCoups]): Boolean
 
   def exec(m: GCoups, ug: UndoGCoups): Boolean
@@ -42,10 +46,13 @@ trait TGPositionS {
 
   def isInCheck(pCouleur: Int): Boolean
 
+  //GPositionS
   def fPositionSimul(m: GCoups, couleur: Int): GPositionS
 
+  //Int
   def pCaseRoi(p: GPositionS, couleur: Int): Int
 
+  //String
   def print: String
 
 }
