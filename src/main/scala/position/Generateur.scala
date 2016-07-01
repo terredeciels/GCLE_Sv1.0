@@ -12,10 +12,13 @@ class Generateur extends A with TGPositionS {
   val roques = Roques.roques
   val R = new Roques
   var caseEP = 0
+
   var gp: Generateur = _
+
   var side = 0
   var coupsvalides: ListBuffer[GCoups] = _
   var estEnEchec = false
+
   var caseO = 0
   var recherchePionAttaqueRoque = false
   var coupsAttaqueRoque: ListBuffer[GCoups] = _
@@ -277,6 +280,7 @@ class Generateur extends A with TGPositionS {
     estEnEchec = generateur.estEnEchec
     coupsvalides
   }
+
 
   def coupsValides(t: Int) = {
     val generateur = new Generateur(this, t)

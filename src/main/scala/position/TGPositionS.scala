@@ -28,7 +28,7 @@ trait TGPositionS {
 
   def pseudoC(gp: Generateur, pCouleur: Int): ListBuffer[GCoups]
 
-  def coupsValides(): ListBuffer[GCoups]
+  def coupsValides(): ListBuffer[GCoups
 
   def coupsValides(t: Int): ListBuffer[GCoups]
 
