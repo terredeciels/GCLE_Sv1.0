@@ -5,7 +5,7 @@ import main.Fen;
 import main.Ui;
 import position.FenToGPosition;
 import position.GCoups;
-import position.GPositionS;
+import position.Generateur;
 import sanutils.SANException;
 
 import static sanutils.SANUtils.toSAN;
@@ -18,7 +18,7 @@ public class CompareEvalWithJChecs {
         initFenList();
         int nb = 0, egaux = 0;
         for (String f : Fen.getFenList()) {
-            GPositionS gp = FenToGPosition.toGPosition(f);
+            Generateur gp = FenToGPosition.toGPosition(f);
             Search search = new Search(gp);
             GCoups move = search.getBestMove();
 

@@ -1,9 +1,9 @@
 package ia;
 
-import position.GPositionS;
+import position.Generateur;
 
 public interface IEval {
 
-    int evaluate(final GPositionS pEtat, int trait);
+    int evaluate(final Generateur pEtat, int trait);
 
 }

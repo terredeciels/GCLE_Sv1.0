@@ -4,7 +4,7 @@ import ggame.GGame;
 import ia.Search;
 import position.FenToGPosition;
 import position.GCoups;
-import position.GPositionS;
+import position.Generateur;
 import position.UndoGCoups;
 import sanutils.SANException;
 
@@ -32,7 +32,7 @@ public final class XBoardAdapter {
     private static final Logger LOGGER = Logger.getLogger(XBoardAdapter.class.getName());
     private static final GGame game = new GGame();
     public static boolean DEBUG = false;
-    private static GPositionS gPosition;
+    private static Generateur gPosition;
     private static boolean S_forceMode = false;
     /**
      * Etat du mode de jeu faible/fort.

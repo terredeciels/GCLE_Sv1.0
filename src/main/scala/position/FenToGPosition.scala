@@ -8,10 +8,10 @@ import scala.Seq.range
 
 object FenToGPosition {
 
-  def toGPosition(fen: String): GPositionS = toGPosition(new Position(fen))
+  def toGPosition(fen: String): Generateur = toGPosition(new Position(fen))
 
   private def toGPosition(position: Position) = {
-    val gp = new GPositionS()
+    val gp = new Generateur()
     val cp_etats = new Array[Int](NB_CASES)
     val etats = new Array[Int](NB_CELLULES)
 

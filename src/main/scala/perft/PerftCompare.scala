@@ -2,7 +2,7 @@ package perft
 
 import java.io.{BufferedReader, FileReader, IOException}
 
-import position.{FenToGPosition, GCoups, GPositionS, UndoGCoups}
+import position.{FenToGPosition, GCoups, Generateur, UndoGCoups}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -34,7 +34,7 @@ object PerftCompare {
             val entry: String = parts(i).trim
             val entryParts: Array[String] = entry.split(" ")
             val perftResult: Int = entryParts(1).toInt
-            val position: GPositionS = FenToGPosition.toGPosition(fen)
+            val position: Generateur = FenToGPosition.toGPosition(fen)
             val result: PerftResult = Perft.perft(position, i)
             if (perftResult == result.moveCount) {
               passes += 1
@@ -64,7 +64,7 @@ class PerftResult {
 }
 
 object Perft {
-  def perft(gp: GPositionS, depth: Int): PerftResult = {
+  def perft(gp: Generateur, depth: Int): PerftResult = {
     val result: PerftResult = new PerftResult
     if (depth == 0) {
       result.moveCount += 1
@@ -88,7 +88,7 @@ object Perft {
     result
   }
 
-  def divide(gp: GPositionS, depth: Int): mutable.HashMap[String, Long] = {
+  def divide(gp: Generateur, depth: Int): mutable.HashMap[String, Long] = {
     val result: mutable.HashMap[String, Long] = new mutable.HashMap[String, Long]
     val moves: ListBuffer[GCoups] = gp.coupsValides()
     var i: Int = 0

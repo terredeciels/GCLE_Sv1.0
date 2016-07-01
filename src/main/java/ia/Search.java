@@ -4,19 +4,19 @@ import ia.eval.EvalFunctionMaterial;
 import ia.tree.AlphaBetaEngineJChecs;
 import position.FenToGPosition;
 import position.GCoups;
-import position.GPositionS;
+import position.Generateur;
 
 /**
  * TODO Runnable
  */
 public class Search {
 
-    private final GPositionS gPosition;
+    private final Generateur gPosition;
     private final IIA ia;
     private final IEval f_eval;
     private final int depth;
 
-    public Search(GPositionS gPosition) {
+    public Search(Generateur gPosition) {
         this.gPosition = gPosition;
         depth = 4;
         f_eval = new EvalFunctionMaterial();
@@ -38,7 +38,7 @@ public class Search {
         return ia.search();
     }
 
-    public GPositionS getGPositionMove() {
+    public Generateur getGPositionMove() {
         return gPosition;
     }
 

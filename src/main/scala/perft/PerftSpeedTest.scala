@@ -15,7 +15,7 @@ object PerftSpeedTest {
 
   def perftTest() {
     val f: String = ICodage.FEN_INITIALE
-    val gp: GPositionS = FenToGPosition.toGPosition(f)
+    val gp: Generateur = FenToGPosition.toGPosition(f)
     val max_depth: Int = 6
     val t0: Double = System.nanoTime
     var depth: Int = 1
@@ -32,7 +32,7 @@ object PerftSpeedTest {
     }
   }
 
-  def perft(gp: GPositionS, depth: Int): PerftResult = {
+  def perft(gp: Generateur, depth: Int): PerftResult = {
     val result: PerftResult = new PerftResult
     if (depth == 0) {
       result.moveCount += 1

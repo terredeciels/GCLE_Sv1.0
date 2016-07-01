@@ -3,7 +3,7 @@ package perft;
 import org.junit.*;
 import position.FenToGPosition;
 import position.GCoups;
-import position.GPositionS;
+import position.Generateur;
 import position.UndoGCoups;
 import scala.collection.mutable.ListBuffer;
 
@@ -48,7 +48,7 @@ public class PerftGCLEUnitaireTest {
 //        f = "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10";
         f = "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1";
         f = "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10";
-        GPositionS gp = FenToGPosition.toGPosition(f);
+        Generateur gp = FenToGPosition.toGPosition(f);
 //        System.out.println(gp.getTrait());
 //        System.out.println(gp.isDroitPetitRoqueBlanc());
 //        System.out.println(gp.isDroitGrandRoqueBlanc());
@@ -95,7 +95,7 @@ public class PerftGCLEUnitaireTest {
 //        assert (miniMax == 3195901860);
     }
 
-    private long miniMax(GPositionS gp, int depth) {
+    private long miniMax(Generateur gp, int depth) {
         long nodes = 0;
 
         if (depth == 0) {

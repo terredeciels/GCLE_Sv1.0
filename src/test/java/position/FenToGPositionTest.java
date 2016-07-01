@@ -28,7 +28,7 @@ public class FenToGPositionTest {
     public void testToGPosition() {
         System.out.println("toGPosition");
         String fen = ICodage.FEN_INITIALE();
-        GPositionS instance = FenToGPosition.toGPosition(fen);
+        Generateur instance = FenToGPosition.toGPosition(fen);
 
         int rg = 0;
         for (int c = 0; c < 64; c++) {

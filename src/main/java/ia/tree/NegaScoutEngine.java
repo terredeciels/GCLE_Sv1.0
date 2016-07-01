@@ -3,7 +3,7 @@ package ia.tree;
 import ia.IEval;
 import ia.IIA;
 import position.GCoups;
-import position.GPositionS;
+import position.Generateur;
 import position.UndoGCoups;
 import scala.collection.Iterator;
 import scala.collection.mutable.ListBuffer;
@@ -16,9 +16,9 @@ public class NegaScoutEngine implements IIA {
 
     private final int depth;
     private final IEval f_eval;
-    private final GPositionS gp;
+    private final Generateur gp;
 
-    public NegaScoutEngine(GPositionS gp, IEval f_eval, int depth) {
+    public NegaScoutEngine(Generateur gp, IEval f_eval, int depth) {
         this.f_eval = f_eval;
         this.gp = gp;
         this.depth = depth;
@@ -27,7 +27,7 @@ public class NegaScoutEngine implements IIA {
     /**
      * Recherche le meilleur coup évalué à partir d'une position.
      */
-    private int negascout(final GPositionS gp, final int depth, final int pAlpha, final int pBeta, final int pLimite) {
+    private int negascout(final Generateur gp, final int depth, final int pAlpha, final int pBeta, final int pLimite) {
 
         final int trait = gp.side();
 
@@ -81,7 +81,7 @@ public class NegaScoutEngine implements IIA {
         return res;
     }
 
-    protected GCoups searchMoveFor(final GPositionS gp, final ListBuffer<GCoups> pCoups) {
+    protected GCoups searchMoveFor(final Generateur gp, final ListBuffer<GCoups> pCoups) {
 
         final int l = pCoups.size();
         GCoups res = pCoups.apply(0);
@@ -106,11 +106,11 @@ public class NegaScoutEngine implements IIA {
         return searchMoveFor(gp, gp.coupsValides());
     }
 
-    private int evaluate(GPositionS gp, int trait) {
+    private int evaluate(Generateur gp, int trait) {
         return f_eval.evaluate(gp, trait);
     }
 
-    private ListBuffer<GCoups> getValidMoves(GPositionS gp, int trait) {
+    private ListBuffer<GCoups> getValidMoves(Generateur gp, int trait) {
         return gp.coupsValides(trait);
     }
 }

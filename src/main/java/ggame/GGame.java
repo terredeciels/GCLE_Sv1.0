@@ -2,7 +2,7 @@ package ggame;
 
 import position.FenToGPosition;
 import position.GCoups;
-import position.GPositionS;
+import position.Generateur;
 import position.ICodage;
 
 /*
@@ -11,17 +11,17 @@ import position.ICodage;
 public class GGame {
 
     public GCoups lastmove;
-    public GPositionS gPosition;
+    public Generateur gPosition;
 
     public GGame() {
         gPosition = FenToGPosition.toGPosition(ICodage.FEN_INITIALE());
     }
 
-    public GPositionS getGPositionMove() {
+    public Generateur getGPositionMove() {
         return gPosition;
     }
 
-    public void setGPositionMove(GPositionS gPosition) {
+    public void setGPositionMove(Generateur gPosition) {
         this.gPosition = gPosition;
     }
 

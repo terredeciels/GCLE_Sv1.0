@@ -1,8 +1,8 @@
 package ia;
 
-import position.GPositionS;
+import position.Generateur;
 
 public interface IAlphaBeta {
 
-    int alphabeta(final GPositionS gPosition, final int pDepth, final int pAlpha, final int pBeta);
+    int alphabeta(final Generateur gPosition, final int pDepth, final int pAlpha, final int pBeta);
 }

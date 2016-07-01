@@ -2,7 +2,7 @@ package ia.eval;
 
 import ia.IEval;
 import ia.IIA;
-import position.GPositionS;
+import position.Generateur;
 import position.ICodage;
 import position.PieceType;
 
@@ -78,7 +78,7 @@ public class EvalFunctionMaterial implements IEval {
     }
 
     @Override
-    public int evaluate(final GPositionS gp, final int trait) {
+    public int evaluate(final Generateur gp, final int trait) {
         boolean pTrait = trait == ICodage.BLANC();
 
         int res = -gp.getHalfmoveCount();
