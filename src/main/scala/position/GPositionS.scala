@@ -5,6 +5,7 @@ import position.PieceType._
 import position.Roques._
 import position.TypeDeCoups._
 
+
 import scala.Array._
 import scala.collection.mutable._
 
